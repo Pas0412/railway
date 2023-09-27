@@ -198,6 +198,16 @@ export default {
   text-decoration: none;
 }
 
+.non-active:hover {
+  display: flex;
+  justify-content: flex-start;
+  color: black;
+  padding: 10px 0  10px 20px;
+  margin-bottom: 10px;
+  background-color: rgb(228, 224, 224);
+  text-decoration: none;
+}
+
 .sidebar-logo {
     height: 20px;
     width: 20px;
