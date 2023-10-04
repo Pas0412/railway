@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import sidebar from './sidebar';
+import user from './user';
 
 export default createStore({
   state: {
@@ -13,6 +14,7 @@ export default createStore({
   },
   modules: {
     // 在此处添加模块
-    sidebar
+    sidebar,
+    user,
   },
 });

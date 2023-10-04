@@ -1,72 +1,37 @@
 <template>
   <div class="sidebar" :class="{ hidden: !sidebarVisible }">
-    <!-- 侧边栏内容 -->
+    <!-- 使用v-for动态渲染菜单项 -->
     <router-link
-      to="/dashboard"
+      v-for="menuItem in menuList"
+      :to="{ path: `/${menuItem.routeName}` }"
       :class="{
-        active: $route.path === '/dashboard',
-        'non-active': $route.path !== '/dashboard',
+        active: $route.path === `/${menuItem.routeName}`,
+        'non-active': $route.path !== `/${menuItem.routeName}`,
       }"
-      >
-      <img src="../assets/dashboard.svg" class="sidebar-logo" alt="">
-      首页</router-link
+      :key="menuItem.routeName"
     >
-    <router-link
-      to="/devices"
-      :class="{
-        active: $route.path === '/devices',
-        'non-active': $route.path !== '/devices',
-      }"
-      ><img src="../assets/device.svg" class="sidebar-logo" alt="">设备管理</router-link
-    >
-    <router-link
-      to="/sensors"
-      :class="{
-        active: $route.path === '/sensors',
-        'non-active': $route.path !== '/sensors',
-      }"
-      ><img src="../assets/sensor.svg" class="sidebar-logo" alt="">传感器管理</router-link
-    >
-    <router-link
-      to="/data"
-      :class="{
-        active: $route.path === '/data',
-        'non-active': $route.path !== '/data',
-      }"
-      ><img src="../assets/data.svg" class="sidebar-logo" alt="">数据管理</router-link
-    >
-    <router-link
-      to="/warnings"
-      :class="{
-        active: $route.path === '/warnings',
-        'non-active': $route.path !== '/warnings',
-      }"
-      ><img src="../assets/warning.svg" class="sidebar-logo" alt="">预警管理</router-link
-    >
-    <router-link
-      to="/auth"
-      :class="{
-        active: $route.path === '/auth',
-        'non-active': $route.path !== '/auth',
-      }"
-      ><img src="../assets/auth.svg" class="sidebar-logo" alt="">权限管理</router-link
-    >
-    <router-link
-      to="/settings"
-      :class="{
-        active: $route.path === '/settings',
-        'non-active': $route.path !== '/settings',
-      }"
-      ><img src="../assets/setting.svg" class="sidebar-logo" alt="">设置</router-link
-    >
+      <!-- 使用menuItem.name作为菜单项名称 -->
+      <img
+        :src="require(`../assets/${menuItem.routeName}.svg`)"
+        class="sidebar-logo"
+        alt=""
+      />
+      {{ menuItem.name }}
+    </router-link>
   </div>
 </template>
 
 <script>
+import router from "@/router";
 export default {
   computed: {
     sidebarVisible() {
       return this.$store.state.sidebar.sidebarVisible; // 从 Vuex 中获取侧边栏状态
+    },
+    menuList() {
+      console.log(router.options.routes);
+      console.log(this.$store.getters["user/getMenuList"]);
+      return this.$store.getters["user/getMenuList"];
     },
   },
   watch: {
@@ -79,6 +44,8 @@ export default {
       const devicesPath = "/devices";
       const sensorsPath = "/sensors";
       const dataPath = "/data";
+      const monitoringDataPath = "/monitoring-data";
+      const realTimeChartPath = "/real-time-chart";
       const warningsPath = "/warnings";
       const authPath = "/auth";
       const settingsPath = "/settings";
@@ -105,6 +72,16 @@ export default {
         currentPath.startsWith(`${dataPath}/`)
       ) {
         this.activateSidebarItem("data");
+      } else if (
+        currentPath === monitoringDataPath ||
+        currentPath.startsWith(`${monitoringDataPath}/`)
+      ) {
+        this.activateSidebarItem("monitoring-data");
+      } else if (
+        currentPath === realTimeChartPath ||
+        currentPath.startsWith(`${realTimeChartPath}/`)
+      ) {
+        this.activateSidebarItem("real-time-chart");
       } else if (
         currentPath === warningsPath ||
         currentPath.startsWith(`${warningsPath}/`)
@@ -172,7 +149,7 @@ export default {
   color: rgb(255, 153, 0); /* 选中时的文本颜色 */
   display: flex;
   justify-content: flex-start;
-  padding: 10px 0  10px 20px;
+  padding: 10px 0 10px 20px;
   margin-bottom: 10px;
   text-decoration: none;
   position: relative;
@@ -192,7 +169,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   color: black;
-  padding: 10px 0  10px 20px;
+  padding: 10px 0 10px 20px;
   margin-bottom: 10px;
   background-color: rgb(244, 243, 243);
   text-decoration: none;
@@ -202,15 +179,15 @@ export default {
   display: flex;
   justify-content: flex-start;
   color: black;
-  padding: 10px 0  10px 20px;
+  padding: 10px 0 10px 20px;
   margin-bottom: 10px;
   background-color: rgb(228, 224, 224);
   text-decoration: none;
 }
 
 .sidebar-logo {
-    height: 20px;
-    width: 20px;
-    margin-right: 10px;
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
 }
 </style>

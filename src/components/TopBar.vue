@@ -8,10 +8,12 @@
     />
     <img class="logo" src="../assets/logo.png" alt="logo">
     <div class="title">软土地区铁路路基远程在线监测信息管理系统</div>
+    <button @click="logout">log out</button>
   </div>
 </template>
 
 <script>
+import router from '@/router';
 export default {
     computed: {
     sidebarVisible() {
@@ -22,6 +24,10 @@ export default {
     toggleSidebar() {
       this.$store.dispatch("sidebar/toggleSidebar"); // 调用 Vuex action 切换侧边栏状态
     },
+    logout() {
+      this.$store.dispatch("user/logout");
+      router.push('/');
+    }
   },
 };
 </script>
