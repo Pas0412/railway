@@ -10,14 +10,13 @@ const routes = [
             { path: 'devices', component: () => import('@/views/Devices.vue') },
             { path: 'sensors', component: () => import('@/views/Sensors.vue') },
             {
-                path: 'data', component: () => import('@/views/Data.vue'), children: [
-                    { path: 'monitoring-data', component: () => import('@/views/MonitoringData.vue') },
-                    { path: 'real-time-chart', component: () => import('@/views/RealTimeChart.vue') }
-                ]
+                path: 'data', component: () => import('@/views/Data.vue')
             },
+            { path: 'monitoring-data', component: () => import('@/views/MonitoringData.vue') },
+            { path: 'real-time-chart', component: () => import('@/views/RealTimeChart.vue') },
             { path: 'warnings', component: () => import('@/views/Warnings.vue') },
             { path: 'auth', component: () => import('@/views/Auth.vue') },
-            { path: 'settings', component: () => import('@/views/Settings.vue') },
+            { path: 'settings', component: () => import('@/views/MonitoringData.vue') },
         ],
         meta: { requiresAuth: true }
     },

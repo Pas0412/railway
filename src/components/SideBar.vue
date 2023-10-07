@@ -1,29 +1,75 @@
 <template>
   <div class="sidebar" :class="{ hidden: !sidebarVisible }">
     <!-- 使用v-for动态渲染菜单项 -->
-    <router-link
-      v-for="menuItem in menuList"
-      :to="{ path: `/${menuItem.routeName}` }"
-      :class="{
-        active: $route.path === `/${menuItem.routeName}`,
-        'non-active': $route.path !== `/${menuItem.routeName}`,
-      }"
-      :key="menuItem.routeName"
-    >
-      <!-- 使用menuItem.name作为菜单项名称 -->
-      <img
-        :src="require(`../assets/${menuItem.routeName}.svg`)"
-        class="sidebar-logo"
-        alt=""
-      />
-      {{ menuItem.name }}
-    </router-link>
+    <template v-for="menuItem in menuList" :key="menuItem.routeName">
+      <router-link
+        :to="{ path: `/${menuItem.routeName}` }"
+        :class="{
+          active: $route.path === `/${menuItem.routeName}`,
+          'non-active': $route.path !== `/${menuItem.routeName}`,
+        }"
+      >
+        <img
+          :src="require(`../assets/${menuItem.routeName}.svg`)"
+          class="sidebar-logo"
+          alt=""
+        />
+        {{ menuItem.name }}
+      </router-link>
+
+      <!-- 在 "数据管理" 后面插入 "监测数据" 和 "实时曲线" -->
+      <template
+        v-if="menuItem.routeName === 'data' && isDataManagementSelected"
+      >
+        <router-link
+          to="/monitoring-data"
+          :class="{
+            active: $route.path === '/monitoring-data',
+            'non-active': $route.path !== '/monitoring-data',
+          }"
+          :key="'monitoring-data'"
+        >
+          <!-- 包装元素，添加左边距 -->
+          <div class="sidebar-item-wrapper sidebar-item-sub">
+            <img
+              :src="require(`../assets/monitoring-data.svg`)"
+              class="sidebar-logo"
+              alt=""
+            />
+            监测数据
+          </div>
+        </router-link>
+        <router-link
+          to="/real-time-chart"
+          :class="{
+            active: $route.path === '/real-time-chart',
+            'non-active': $route.path !== '/real-time-chart',
+          }"
+          :key="'real-time-chart'"
+        >
+          <!-- 包装元素，添加左边距 -->
+          <div class="sidebar-item-wrapper sidebar-item-sub">
+            <img
+              :src="require(`../assets/real-time-chart.svg`)"
+              class="sidebar-logo"
+              alt=""
+            />
+            实时曲线
+          </div>
+        </router-link>
+      </template>
+    </template>
   </div>
 </template>
 
 <script>
 import router from "@/router";
 export default {
+  data() {
+    return {
+      isDataManagementSelected: false,
+    };
+  },
   computed: {
     sidebarVisible() {
       return this.$store.state.sidebar.sidebarVisible; // 从 Vuex 中获取侧边栏状态
@@ -50,6 +96,12 @@ export default {
       const authPath = "/auth";
       const settingsPath = "/settings";
 
+      console.log(this.$route.fullPath);
+
+      if (currentPath != dataPath || !currentPath.startsWith(`${dataPath}/`)) {
+        this.toggleSubSidebar();
+      }
+
       // 更新侧边栏选项的激活状态
       if (
         currentPath === dashboardPath ||
@@ -71,16 +123,19 @@ export default {
         currentPath === dataPath ||
         currentPath.startsWith(`${dataPath}/`)
       ) {
+        this.activeSubSidebar();
         this.activateSidebarItem("data");
       } else if (
         currentPath === monitoringDataPath ||
         currentPath.startsWith(`${monitoringDataPath}/`)
       ) {
+        this.activeSubSidebar();
         this.activateSidebarItem("monitoring-data");
       } else if (
         currentPath === realTimeChartPath ||
         currentPath.startsWith(`${realTimeChartPath}/`)
       ) {
+        this.activeSubSidebar();
         this.activateSidebarItem("real-time-chart");
       } else if (
         currentPath === warningsPath ||
@@ -119,6 +174,12 @@ export default {
       sidebarItems.forEach((item) => {
         item.classList.remove("active");
       });
+    },
+    activeSubSidebar() {
+      this.isDataManagementSelected = true;
+    },
+    toggleSubSidebar() {
+      this.isDataManagementSelected = false;
     },
   },
 };
@@ -189,5 +250,15 @@ export default {
   height: 20px;
   width: 20px;
   margin-right: 10px;
+}
+
+/* 给包装元素添加左边距 */
+.sidebar-item-wrapper {
+  margin-left: 10px; /* 这里设置左边距的大小 */
+}
+
+/* 对于子菜单项，添加额外的左边距 */
+.sidebar-item-sub {
+  margin-left: 20px; /* 子菜单项的左边距可以根据需要设置更大的值 */
 }
 </style>

@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="settings">
-      <h1>Data</h1>
+      <h1>real-time-chart</h1>
       <!-- 在此添加设置页面内容 -->
     </div>
   </template>

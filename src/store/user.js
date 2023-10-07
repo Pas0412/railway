@@ -46,7 +46,7 @@ function processMenuList(menuList) {
       "传感器管理": "Sensors",
       "数据管理": "Data",
       "监测数据": "MonitoringData",
-      "实时曲线": "RealTimeCharts",
+      "实时曲线": "RealTimeChart",
       "预警管理": "Warnings",
       "权限管理": "Auth",
       "设置": "Settings",
@@ -59,7 +59,7 @@ function processMenuList(menuList) {
       "传感器管理": "sensors",
       "数据管理": "data",
       "监测数据": "monitoring-data",
-      "实时曲线": "real-time-charts",
+      "实时曲线": "real-time-chart",
       "预警管理": "warnings",
       "权限管理": "auth",
       "设置": "settings"
