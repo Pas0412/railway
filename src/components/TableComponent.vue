@@ -66,7 +66,7 @@ tbody tr {
 }
 
 tbody td {
-  padding: 20px;
+  height: 50px;
   border: 1px solid white; /* 表格边框颜色 */
 }
 </style>

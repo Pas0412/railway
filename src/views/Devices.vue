@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="settings">
-    <h1>Devices</h1>
     <!-- 在此添加设置页面内容 -->
     <input v-model="searchTerm" type="text" placeholder="搜索设备" />
     <TableComponent
