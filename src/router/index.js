@@ -16,7 +16,7 @@ const routes = [
             { path: 'real-time-chart', component: () => import('@/views/RealTimeChart.vue') },
             { path: 'warnings', component: () => import('@/views/Warnings.vue') },
             { path: 'auth', component: () => import('@/views/Auth.vue') },
-            { path: 'settings', component: () => import('@/views/MonitoringData.vue') },
+            { path: 'settings', component: () => import('@/views/Settings.vue') },
         ],
         meta: { requiresAuth: true }
     },

@@ -62,7 +62,7 @@ export default {
       currentPage.value++;
     };
 
-    const fetchsensorData = async () => {
+    const fetchMonitoringData = async () => {
       const response = await monitoringData(
         deviceId.value,
         endTime.value,
@@ -86,10 +86,9 @@ export default {
           scollectTime: item.collectTime,
         });
       });
-      const maxLength = 10; // 期望的最大行数
 
-      // 填充数据以确保至少有 maxLength 行
-      while (mData.length < maxLength) {
+      // 填充数据以确保至少有 itemsPerPage.value 行
+      while (mData.length < itemsPerPage.value) {
         mData.push({
           Id: " ",
           frequencyConstant: " ",
@@ -106,7 +105,7 @@ export default {
     };
 
     onMounted(() => {
-      fetchsensorData();
+      fetchMonitoringData();
     });
 
     return {

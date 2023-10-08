@@ -1,24 +1,20 @@
 import axiosInstance from './index.js';
 
 // 获取用户信息
-export function monitoringData(
+export function getWarnings(
+    configName,
     deviceId,
     endTime,
-    methodID,
-    pageNum,
-    pageSize,
-    sensorId,
-    sensorTypeId,
+    currentPage,
+    itemsPerPage,
     startTime) {
     return new Promise((resolve, reject) => {
-        axiosInstance.post('/sensorData/list', {
+        axiosInstance.post('/warmEvent/list', {
+            configName: configName,
             deviceId: deviceId,
             endTime: endTime,
-            methodID: methodID,
-            pageNum: pageNum,
-            pageSize: pageSize,
-            sensorId: sensorId,
-            sensorTypeId: sensorTypeId,
+            pageNum: currentPage,
+            pageSize: itemsPerPage,
             startTime: startTime
         })
             .then(response => {

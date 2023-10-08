@@ -47,7 +47,7 @@ export default {
 
     const itemsPerPage = ref(10);
     const currentPage = ref(1);
-    const searchTerm = ref("");
+    const deviceName = ref("");
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -61,7 +61,7 @@ export default {
 
     const fetchDeviceData = async () => {
       const response = await getDevices(
-        searchTerm.value,
+        deviceName.value,
         currentPage.value,
         itemsPerPage.value
       );
@@ -80,10 +80,9 @@ export default {
           operation: "修改/删除/详情"
         });
       });
-      const maxLength = 10; // 期望的最大行数
 
-      // 填充数据以确保至少有 maxLength 行
-      while (deviceData.length < maxLength) {
+      // 填充数据以确保至少有 itemsPerPage.value 行
+      while (deviceData.length < itemsPerPage.value) {
         deviceData.push({ 
           deviceId: ' ',
           deviceCode: ' ',
@@ -109,7 +108,7 @@ export default {
       tableData,
       itemsPerPage,
       currentPage,
-      searchTerm,
+      deviceName,
       tableHeaders,
       previousPage,
       nextPage,

@@ -1,10 +1,10 @@
 import axiosInstance from './index.js';
 
 // 获取用户信息
-export function getDevices(search, page, pageSize) {
+export function getDevices(deviceName, page, pageSize) {
     return new Promise((resolve, reject) => {
         axiosInstance.post('/device/deviceList', {
-            deviceName: search,
+            deviceName: deviceName,
             pageNum: page,
             pageSize: pageSize
         })

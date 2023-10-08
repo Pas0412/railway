@@ -1,11 +1,11 @@
 import axiosInstance from './index.js';
 
 // 获取用户信息
-export function getSensors(search, page, pageSize) {
+export function getSensors(sensorName, pageNum, pageSize) {
     return new Promise((resolve, reject) => {
         axiosInstance.post('/sensor/list', {
-            sensorName: search,
-            pageNum: page,
+            sensorName: sensorName,
+            pageNum: pageNum,
             pageSize: pageSize
         })
         .then(response => {

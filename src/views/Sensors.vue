@@ -46,7 +46,7 @@ export default {
 
     const itemsPerPage = ref(10);
     const currentPage = ref(1);
-    const searchTerm = ref("");
+    const sensorName = ref("");
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -60,7 +60,7 @@ export default {
 
     const fetchsensorData = async () => {
       const response = await getSensors(
-        searchTerm.value,
+        sensorName.value,
         currentPage.value,
         itemsPerPage.value
       );
@@ -78,10 +78,9 @@ export default {
           operation: "修改/删除/详情",
         });
       });
-      const maxLength = 10; // 期望的最大行数
 
-      // 填充数据以确保至少有 maxLength 行
-      while (sensorData.length < maxLength) {
+      // 填充数据以确保至少有 itemsPerPage.value 行
+      while (sensorData.length < itemsPerPage.value) {
         sensorData.push({
           sensorId: " ",
           sensorCode: " ",
@@ -106,7 +105,7 @@ export default {
       tableData,
       itemsPerPage,
       currentPage,
-      searchTerm,
+      sensorName,
       tableHeaders,
       previousPage,
       nextPage,
