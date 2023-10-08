@@ -2,7 +2,7 @@
 <template>
   <div class="settings">
     <!-- 在此添加设置页面内容 -->
-    <input v-model="searchTerm" type="text" placeholder="搜索设备" />
+    <input v-model="deviceId" type="text" placeholder="搜索设备" />
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
@@ -10,9 +10,13 @@
       :tableHeaders="tableHeaders"
     />
     <Pagination
-      :currentPage="currentPage"
+      v-model:currentPage="currentPage"
+      v-model:itemsPerPage="itemsPerPage"
+      :totalItems="totalItems"
+      :maxPage="maxPage"
       @previousPage="previousPage"
       @nextPage="nextPage"
+      @update:itemsPerPage="updateItemsPerPage"
     />
   </div>
 </template>
@@ -50,15 +54,26 @@ export default {
     const sensorId = ref("");
     const sensorTypeId = ref("");
     const startTime = ref("");
+    const totalItems = ref(0);
+    const maxPage = ref(1);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
         currentPage.value--;
+        fetchMonitoringData();
       }
     };
 
     const nextPage = () => {
+      console.log("clicked");
       currentPage.value++;
+      fetchMonitoringData();
+    };
+
+    const updateItemsPerPage = (newItemsPerPage) => {
+      itemsPerPage.value = newItemsPerPage;
+      currentPage.value = 1; // Reset to the first page when changing items per page
+      fetchMonitoringData();
     };
 
     const fetchMonitoringData = async () => {
@@ -73,6 +88,9 @@ export default {
         startTime.value
       );
       const mData = [];
+      totalItems.value = response.total;
+      maxPage.value = response.pages;
+      console.log(response.records);
       response.records.forEach((item) => {
         mData.push({
           Id: item.Id,
@@ -82,7 +100,7 @@ export default {
           forecastValue: item.forecastValue,
           setTemperature: item.setTemperature,
           sensorState: item.sensorState,
-          scollectTime: item.collectTime,
+          collectTime: item.collectTime,
         });
       });
 
@@ -96,7 +114,7 @@ export default {
           forecastValue: " ",
           setTemperature: " ",
           sensorState: " ",
-          scollectTime: " ",
+          collectTime: " ",
         });
       }
 
@@ -109,6 +127,8 @@ export default {
 
     return {
       tableData,
+      totalItems,
+      maxPage,
       itemsPerPage,
       currentPage,
       deviceId,
@@ -120,6 +140,7 @@ export default {
       tableHeaders,
       previousPage,
       nextPage,
+      updateItemsPerPage
     };
   },
 };

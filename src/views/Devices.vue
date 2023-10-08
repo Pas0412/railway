@@ -2,7 +2,7 @@
 <template>
   <div class="settings">
     <!-- 在此添加设置页面内容 -->
-    <input v-model="searchTerm" type="text" placeholder="搜索设备" />
+    <input v-model="deviceName" type="text" placeholder="搜索设备" />
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
@@ -10,9 +10,13 @@
       :tableHeaders="tableHeaders"
     />
     <Pagination
-      :currentPage="currentPage"
+      v-model:currentPage="currentPage"
+      v-model:itemsPerPage="itemsPerPage"
+      :totalItems="totalItems"
+      :maxPage="maxPage"
       @previousPage="previousPage"
       @nextPage="nextPage"
+      @update:itemsPerPage="updateItemsPerPage"
     />
   </div>
 </template>
@@ -47,15 +51,26 @@ export default {
     const itemsPerPage = ref(10);
     const currentPage = ref(1);
     const deviceName = ref("");
+    const totalItems = ref(0);
+    const maxPage = ref(1);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
         currentPage.value--;
+        fetchDeviceData();
       }
     };
 
     const nextPage = () => {
+      console.log("clicked");
       currentPage.value++;
+      fetchDeviceData();
+    };
+
+    const updateItemsPerPage = (newItemsPerPage) => {
+      itemsPerPage.value = newItemsPerPage;
+      currentPage.value = 1; // Reset to the first page when changing items per page
+      fetchDeviceData();
     };
 
     const fetchDeviceData = async () => {
@@ -65,6 +80,9 @@ export default {
         itemsPerPage.value
       );
       const deviceData = [];
+      totalItems.value = response.total;
+      maxPage.value = response.pages;
+      console.log(currentPage.value);
       response.records.forEach((item) => {
         deviceData.push({
           deviceId: item.deviceId,
@@ -105,12 +123,15 @@ export default {
 
     return {
       tableData,
+      totalItems,
+      maxPage,
       itemsPerPage,
       currentPage,
       deviceName,
       tableHeaders,
       previousPage,
       nextPage,
+      updateItemsPerPage,
     };
   },
 };

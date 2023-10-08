@@ -185,7 +185,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .sidebar {
   width: 250px;
   background-color: #fff;

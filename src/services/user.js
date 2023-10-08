@@ -23,16 +23,19 @@ export function userLogin(username, password) {
 }
 
 export function userList(department, job, pageNum, pageSize, role, userName) {
+    const formData = new FormData();
+    formData.append('department', department);
+    formData.append('job', job);
+    formData.append('pageNum', pageNum);
+    formData.append('pageSize', pageSize);
+    formData.append('role', role);
+    formData.append('userName', userName);
     return new Promise((resolve, reject) => {
-        axiosInstance.post('/user/UserList',
-            {
-                department: department,
-                job: job,
-                pageNum: pageNum,
-                pageSize: pageSize,
-                role: role,
-                userName: userName
+        axiosInstance.post('/user/UserList',formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
+        }
         )
         .then(response => {
             // 请求成功，解析数据并传递给 resolve

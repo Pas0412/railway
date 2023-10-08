@@ -2,7 +2,7 @@
 <template>
   <div class="settings">
     <!-- 在此添加设置页面内容 -->
-    <input v-model="searchTerm" type="text" placeholder="搜索设备" />
+    <input v-model="sensorName" type="text" placeholder="搜索设备" />
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
@@ -10,15 +10,19 @@
       :tableHeaders="tableHeaders"
     />
     <Pagination
-      :currentPage="currentPage"
+      v-model:currentPage="currentPage"
+      v-model:itemsPerPage="itemsPerPage"
+      :totalItems="totalItems"
+      :maxPage="maxPage"
       @previousPage="previousPage"
       @nextPage="nextPage"
+      @update:itemsPerPage="updateItemsPerPage"
     />
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, triggerRef } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
 import { getSensors } from "@/services/sensors";
@@ -46,24 +50,39 @@ export default {
     const itemsPerPage = ref(10);
     const currentPage = ref(1);
     const sensorName = ref("");
+    const totalItems = ref(0);
+    const maxPage = ref(1);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
         currentPage.value--;
+        fetchSensorData();
       }
     };
 
     const nextPage = () => {
+      console.log("clicked");
       currentPage.value++;
+      fetchSensorData();
     };
 
-    const fetchsensorData = async () => {
+    const updateItemsPerPage = (newItemsPerPage) => {
+      itemsPerPage.value = newItemsPerPage;
+      currentPage.value = 1; // Reset to the first page when changing items per page
+      fetchSensorData();
+    };
+
+    const fetchSensorData = async () => {
       const response = await getSensors(
         sensorName.value,
         currentPage.value,
         itemsPerPage.value
       );
+      console.log(response);
       const sensorData = [];
+      console.log(currentPage.value);
+      totalItems.value = response.total;
+      maxPage.value = response.pages;
       response.records.forEach((item) => {
         sensorData.push({
           sensorId: item.sensorId,
@@ -93,21 +112,26 @@ export default {
         });
       }
 
+      console.log(tableData.value);
       tableData.value = sensorData;
+      triggerRef(tableData);
     };
 
     onMounted(() => {
-      fetchsensorData();
+      fetchSensorData();
     });
 
     return {
       tableData,
+      totalItems,
+      maxPage,
       itemsPerPage,
       currentPage,
       sensorName,
       tableHeaders,
       previousPage,
       nextPage,
+      updateItemsPerPage
     };
   },
 };

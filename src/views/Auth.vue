@@ -2,7 +2,7 @@
 <template>
   <div class="settings">
     <!-- 在此添加设置页面内容 -->
-    <input v-model="searchTerm" type="text" placeholder="搜索设备" />
+    <input v-model="userName" type="text" placeholder="搜索设备" />
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
@@ -10,9 +10,13 @@
       :tableHeaders="tableHeaders"
     />
     <Pagination
-      :currentPage="currentPage"
+      v-model:currentPage="currentPage"
+      v-model:itemsPerPage="itemsPerPage"
+      :totalItems="totalItems"
+      :maxPage="maxPage"
       @previousPage="previousPage"
       @nextPage="nextPage"
+      @update:itemsPerPage="updateItemsPerPage"
     />
   </div>
 </template>
@@ -50,15 +54,26 @@ export default {
     const job = ref("");
     const role = ref("");
     const userName = ref("");
+    const totalItems = ref(0);
+    const maxPage = ref(1);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
         currentPage.value--;
+        fetchUserList();
       }
     };
 
     const nextPage = () => {
+      console.log("clicked");
       currentPage.value++;
+      fetchUserList();
+    };
+
+    const updateItemsPerPage = (newItemsPerPage) => {
+      itemsPerPage.value = newItemsPerPage;
+      currentPage.value = 1; // Reset to the first page when changing items per page
+      fetchUserList();
     };
 
     const fetchUserList = async () => {
@@ -71,6 +86,8 @@ export default {
         userName.value
       );
       const uData = [];
+      totalItems.value = response.total;
+      maxPage.value = response.pages;
       response.records.forEach((item) => {
         uData.push({
           userId: item.userId,
@@ -111,6 +128,8 @@ export default {
 
     return {
       tableData,
+      totalItems,
+      maxPage,
       itemsPerPage,
       currentPage,
       department,
@@ -120,6 +139,7 @@ export default {
       tableHeaders,
       previousPage,
       nextPage,
+      updateItemsPerPage
     };
   },
 };

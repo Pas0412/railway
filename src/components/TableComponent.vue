@@ -9,8 +9,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(device, index) in displayedData" :key="index">
-          <td v-for="item in device" :key="item">{{ item }}</td>
+        <tr v-for="device in displayedData" :key="'device_' + device.deviceId">
+          <td v-for="(item, index) in device" :key="'item_' + index">{{ item }}</td>
         </tr>
       </tbody>
     </table>

@@ -11,6 +11,9 @@
     />
     <Pagination
       :currentPage="currentPage"
+      :itemsPerPage="itemsPerPage"
+      :totalItems="totalItems"
+      :maxPage="maxPage"
       @previousPage="previousPage"
       @nextPage="nextPage"
     />
@@ -49,6 +52,8 @@ export default {
     const endTime = ref("");
     const configName = ref("");
     const startTime = ref("");
+    const totalItems = ref(0);
+    const maxPage = ref(1);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -70,6 +75,8 @@ export default {
         startTime.value
       );
       const wData = [];
+      totalItems.value = response.total;
+      maxPage.value = response.pages;
       response.records.forEach((item) => {
         wData.push({
           WarmId: item.WarmId,
@@ -108,6 +115,8 @@ export default {
 
     return {
       tableData,
+      totalItems,
+      maxPage,
       itemsPerPage,
       currentPage,
       deviceId,

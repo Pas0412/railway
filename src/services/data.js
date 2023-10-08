@@ -10,16 +10,20 @@ export function monitoringData(
     sensorId,
     sensorTypeId,
     startTime) {
+        const formData = new FormData();
+        formData.append('methodID', methodID);
+        formData.append('deviceId', deviceId);
+        formData.append('endTime', endTime);
+        formData.append('pageNum', pageNum);
+        formData.append('pageSize', pageSize);
+        formData.append('sensorId', sensorId);
+        formData.append('sensorTypeId', sensorTypeId);
+        formData.append('startTime', startTime);
     return new Promise((resolve, reject) => {
-        axiosInstance.post('/sensorData/list', {
-            deviceId: deviceId,
-            endTime: endTime,
-            methodID: methodID,
-            pageNum: pageNum,
-            pageSize: pageSize,
-            sensorId: sensorId,
-            sensorTypeId: sensorTypeId,
-            startTime: startTime
+        axiosInstance.post('/sensorData/list', formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         })
             .then(response => {
                 // 请求成功，解析数据并传递给 resolve
