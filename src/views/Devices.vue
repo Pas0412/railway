@@ -49,16 +49,6 @@ export default {
     const currentPage = ref(1);
     const searchTerm = ref("");
 
-    // const filteredData = computed(() => {
-    //   return tableData.value.filter((device) =>
-    //     device.name.toLowerCase().includes(searchTerm.value.toLowerCase())
-    //   );
-    // });
-
-    // const totalPages = computed(() =>
-    //   Math.ceil(tableData.value.length / itemsPerPage.value)
-    // );
-
     const previousPage = () => {
       if (currentPage.value > 1) {
         currentPage.value--;
@@ -66,16 +56,50 @@ export default {
     };
 
     const nextPage = () => {
-      // if (currentPage.value < totalPages.value) {
-        currentPage.value++;
-      // }
+      currentPage.value++;
     };
 
     const fetchDeviceData = async () => {
-      const response = await getDevices(searchTerm.value, currentPage.value, itemsPerPage.value);
-      tableData.value = response.records;
-      console.log(response.records);
-    }
+      const response = await getDevices(
+        searchTerm.value,
+        currentPage.value,
+        itemsPerPage.value
+      );
+      const deviceData = [];
+      response.records.forEach((item) => {
+        deviceData.push({
+          deviceId: item.deviceId,
+          deviceCode: item.deviceCode,
+          deviceName: item.deviceName,
+          deviceType: item.deviceType,
+          batteryLevel: item.batteryLevel,
+          deviceSignal: item.deviceSignal,
+          sensorAbnormalCondition: item.sensorAbnormalCondition,
+          deviceState: item.deviceState,
+          sysAddTime: item.sysAddTime,
+          operation: "修改/删除/详情"
+        });
+      });
+      const maxLength = 10; // 期望的最大行数
+
+      // 填充数据以确保至少有 maxLength 行
+      while (deviceData.length < maxLength) {
+        deviceData.push({ 
+          deviceId: ' ',
+          deviceCode: ' ',
+          deviceName: ' ',
+          deviceType: ' ',
+          batteryLevel: ' ',
+          deviceSignal: ' ',
+          sensorAbnormalCondition: ' ',
+          deviceState: ' ',
+          sysAddTime: ' ',
+          operation: ' '
+         });
+      }
+
+      tableData.value = deviceData;
+    };
 
     onMounted(() => {
       fetchDeviceData();
@@ -85,9 +109,7 @@ export default {
       tableData,
       itemsPerPage,
       currentPage,
-      // totalPages,
       searchTerm,
-      // filteredData,
       tableHeaders,
       previousPage,
       nextPage,
