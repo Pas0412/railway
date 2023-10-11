@@ -16,7 +16,9 @@
       :maxPage="maxPage"
       @previousPage="previousPage"
       @nextPage="nextPage"
-      @update:itemsPerPage="updateItemsPerPage"
+      @itemsPerPage="updateItemsPerPage"
+      @goToPageInput="goToPageInput"
+      @goToPage="goToPage"
     />
   </div>
 </template>
@@ -73,6 +75,18 @@ export default {
     const updateItemsPerPage = (newItemsPerPage) => {
       itemsPerPage.value = newItemsPerPage;
       currentPage.value = 1; // Reset to the first page when changing items per page
+      fetchUserList();
+    };
+
+    const goToPageInput = (newCurrentPage) => {
+      console.log(newCurrentPage);
+      currentPage.value = newCurrentPage;
+      fetchUserList();
+    };
+
+    const goToPage = (newCurrentPage) => {
+      console.log(newCurrentPage);
+      currentPage.value = newCurrentPage;
       fetchUserList();
     };
 
@@ -139,7 +153,9 @@ export default {
       tableHeaders,
       previousPage,
       nextPage,
-      updateItemsPerPage
+      updateItemsPerPage,
+      goToPageInput,
+      goToPage
     };
   },
 };

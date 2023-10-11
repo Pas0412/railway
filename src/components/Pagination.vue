@@ -1,13 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="pagination">
-    <span>共 {{ totalItems }} 条</span>
+    <span class="total-items">共 {{ totalItems }} 条</span>
     <input
       type="number"
+      class="items-per-page"
       v-model="localItemsPerPage"
       @input="updateItemsPerPage"
-    />
-    <button class="button" @click="$emit('previousPage')" :disabled="currentPage === 1">
+    />条&frasl;页
+    <button
+      class="button previous-page"
+      @click="$emit('previousPage')"
+      :disabled="currentPage === 1"
+    >
       &lt;
     </button>
     <template v-for="page in visiblePages" :key="page">
@@ -19,22 +24,15 @@
       </button>
     </template>
     <span v-if="showEllipsis">...</span>
-    <button class="button" @click="goToPage(maxPage)">{{ maxPage }}</button>
+    <button class="button" @click="goToPage(maxPage)" v-if="currentPage != maxPage">{{ maxPage }}</button>
     <button
-      class="button"
+      class="button next-page"
       @click="$emit('nextPage')"
       :disabled="currentPage === maxPage"
     >
       &gt;
-    </button>
-    <input type="number" v-model="goToPageInput" @input="updateGoToPageInput" />
-    <button
-      class="button"
-      @click="goToPage(goToPageInput)"
-      :disabled="goToPageInput < 1 || goToPageInput > maxPage"
-    >
-      跳转
-    </button>
+    </button>前往
+    <input class="go-to-page" type="number" v-model="goToPageInput" @input="updateGoToPageInput" />页
   </div>
 </template>
 
@@ -50,7 +48,7 @@ export default {
     return {
       visiblePages: [],
       showEllipsis: false,
-      goToPageInput: "",
+      goToPageInput: this.currentPage,
       localItemsPerPage: this.itemsPerPage,
     };
   },
@@ -61,12 +59,14 @@ export default {
   methods: {
     updateItemsPerPage() {
       // Handle itemsPerPage change here
+      this.$emit("itemsPerPage", this.localItemsPerPage);
     },
     goToPage(page) {
       this.$emit("goToPage", page);
     },
     updateGoToPageInput() {
       // Handle input validation and update here
+      this.$emit("goToPageInput", this.goToPageInput);
     },
     updateVisiblePages() {
       // Calculate visiblePages and showEllipsis based on currentPage and maxPage
@@ -90,18 +90,51 @@ export default {
       this.visiblePages = visiblePages;
       if (this.currentPage < this.maxPage - 1) {
         this.showEllipsis = true;
+      }else {
+        this.showEllipsis = false;
       }
     },
   },
 };
 </script>
 <style scoped>
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 15px;
+  margin: 10px;
+  text-align: center;
+  align-items: center;
+}
+
+.total-items {
+  margin-right: 20px;
+}
+
+.items-per-page {
+  width: 20px;
+  margin-right: 5px;
+}
+
 .active {
   background-color: lightgray;
 }
 
-.button{
+.button {
   background-color: #f2f2f2;
+}
+
+.previous-page {
+  margin-left: 20px !important;
+}
+
+.next-page {
+  margin-right: 40px !important;
+}
+
+.go-to-page {
+  width: 50px;
+  margin: 0 5px;
 }
 
 .button,

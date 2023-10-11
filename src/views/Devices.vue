@@ -16,7 +16,9 @@
       :maxPage="maxPage"
       @previousPage="previousPage"
       @nextPage="nextPage"
-      @update:itemsPerPage="updateItemsPerPage"
+      @itemsPerPage="updateItemsPerPage"
+      @goToPageInput="goToPageInput"
+      @goToPage="goToPage"
     />
   </div>
 </template>
@@ -68,8 +70,21 @@ export default {
     };
 
     const updateItemsPerPage = (newItemsPerPage) => {
+      console.log(newItemsPerPage);
       itemsPerPage.value = newItemsPerPage;
       currentPage.value = 1; // Reset to the first page when changing items per page
+      fetchDeviceData();
+    };
+
+    const goToPageInput = (newCurrentPage) => {
+      console.log(newCurrentPage);
+      currentPage.value = newCurrentPage;
+      fetchDeviceData();
+    };
+
+    const goToPage = (newCurrentPage) => {
+      console.log(newCurrentPage);
+      currentPage.value = newCurrentPage;
       fetchDeviceData();
     };
 
@@ -132,6 +147,8 @@ export default {
       previousPage,
       nextPage,
       updateItemsPerPage,
+      goToPageInput,
+      goToPage
     };
   },
 };

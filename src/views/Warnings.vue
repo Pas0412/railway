@@ -10,12 +10,15 @@
       :tableHeaders="tableHeaders"
     />
     <Pagination
-      :currentPage="currentPage"
-      :itemsPerPage="itemsPerPage"
+      v-model:currentPage="currentPage"
+      v-model:itemsPerPage="itemsPerPage"
       :totalItems="totalItems"
       :maxPage="maxPage"
       @previousPage="previousPage"
       @nextPage="nextPage"
+      @itemsPerPage="updateItemsPerPage"
+      @goToPageInput="goToPageInput"
+      @goToPage="goToPage"
     />
   </div>
 </template>
@@ -58,11 +61,33 @@ export default {
     const previousPage = () => {
       if (currentPage.value > 1) {
         currentPage.value--;
+        fetchWarnings();
       }
     };
 
     const nextPage = () => {
+      console.log("clicked");
       currentPage.value++;
+      fetchWarnings();
+    };
+
+    const updateItemsPerPage = (newItemsPerPage) => {
+      console.log(newItemsPerPage);
+      itemsPerPage.value = newItemsPerPage;
+      currentPage.value = 1; // Reset to the first page when changing items per page
+      fetchWarnings();
+    };
+
+    const goToPageInput = (newCurrentPage) => {
+      console.log(newCurrentPage);
+      currentPage.value = newCurrentPage;
+      fetchWarnings();
+    };
+
+    const goToPage = (newCurrentPage) => {
+      console.log(newCurrentPage);
+      currentPage.value = newCurrentPage;
+      fetchWarnings();
     };
 
     const fetchWarnings = async () => {
@@ -126,6 +151,9 @@ export default {
       tableHeaders,
       previousPage,
       nextPage,
+      updateItemsPerPage,
+      goToPageInput,
+      goToPage
     };
   },
 };
