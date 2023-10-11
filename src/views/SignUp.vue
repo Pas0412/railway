@@ -3,7 +3,7 @@
   <div class="login-container">
     <div class="login">
       <h2>用户注册</h2>
-      <form @submit.prevent="signup">
+      <form @submit.prevent="signup" class="form">
         <div>
           <label for="department">部门 *</label>
           <input type="text" id="department" v-model="department" required />
@@ -43,10 +43,6 @@
           <input type="text" id="remarks" v-model="remarks" />
         </div>
         <div>
-          <label for="role">角色 *</label>
-          <input type="number" id="role" v-model="role" required />
-        </div>
-        <div>
           <label for="sysRemarks">备注说明</label>
           <input type="text" id="sysRemarks" v-model="sysRemarks" />
         </div>
@@ -58,39 +54,51 @@
           <label for="userSex">用户性别</label>
           <input type="text" id="userSex" v-model="userSex" />
         </div>
+        <div class="role">
+          <label for="role">角色 *</label>
+          <input type="number" id="role" v-model="role" required />
+        </div>
         <button type="submit">注册</button>
       </form>
+      已有账户？
+      <a href="/login">去登录</a>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { userSignUp, userLogin } from '@/services/user';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { userSignUp } from "@/services/user";
 
 export default {
   setup() {
     const router = useRouter();
 
     // 响应式数据
-    const department = ref('');
-    const email = ref('');
-    const job = ref('');
-    const loginAccount = ref('');
-    const loginPassword = ref('');
-    const phone = ref('');
-    const remarks = ref('');
-    const role = ref('');
-    const sysRemarks = ref('');
-    const userName = ref('');
-    const userSex = ref('');
+    const department = ref("");
+    const email = ref("");
+    const job = ref("");
+    const loginAccount = ref("");
+    const loginPassword = ref("");
+    const phone = ref("");
+    const remarks = ref("");
+    const role = ref("");
+    const sysRemarks = ref("");
+    const userName = ref("");
+    const userSex = ref("");
 
     // 提交表单
     const signup = () => {
       // 检查必填字段
-      if (!department.value || !loginAccount.value || !loginPassword.value || !role.value || !userName.value) {
-        alert('请填写必填字段');
+      if (
+        !department.value ||
+        !loginAccount.value ||
+        !loginPassword.value ||
+        !role.value ||
+        !userName.value
+      ) {
+        alert("请填写必填字段");
         return;
       }
 
@@ -113,26 +121,12 @@ export default {
         // 发送注册请求，假设注册成功后会返回用户信息
         // eslint-disable-next-line no-unused-vars
         const response = userSignUp(formData);
+        console.log(response);
 
-        // 假设登录接口是 yourLoginApi，传递登录账号和密码
-        userLogin(this.username, this.password)
-        .then((data) => {
-          // 请求成功，处理返回的数据
-          this.code = data;
-          if (this.code == 200) {
-            this.$store.dispatch("user/login", this.username);
-          }
-        })
-        .catch((error) => {
-          // 请求失败，处理错误信息
-          console.error("服务器错误", error);
-        });
-
-        // 使用 Vue Router 的 router.push 方法跳转到首页
-        router.push('/');
+        router.push("/");
       } catch (error) {
-        console.error('注册失败', error);
-        alert('注册失败，请重试');
+        console.error("注册失败", error);
+        alert("注册失败，请重试");
       }
     };
 
@@ -148,35 +142,34 @@ export default {
       sysRemarks,
       userName,
       userSex,
-      signup,
+      signup
     };
   },
 };
 </script>
 
-<style>
+<style scoped>
 .login-container {
   width: 100%;
   margin: 0 auto;
   background-color: rgb(207, 232, 240);
   text-align: center;
-  height: 100vh;
+  height: 200vh;
   position: absolute;
 }
 
 .login {
-  width: 400px;
+  width: 600px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: lightblue;
   text-align: center;
-  height: 400px;
-  position: fixed;
+  position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-200px, -200px);
+  transform: translate(-300px, -800px);
 }
 
 .form-group {
@@ -190,7 +183,8 @@ label {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
   width: 90%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -209,5 +203,15 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* 两列 */
+  grid-gap: 16px; /* 网格间隙 */
+}
+
+.role {
+  margin-bottom: 40px;
 }
 </style>

@@ -47,3 +47,21 @@ export function userList(department, job, pageNum, pageSize, role, userName) {
             });
     });
 }
+
+export function userSignUp(formData) {
+    return new Promise((resolve, reject) => {
+        axiosInstance.post('/user/addUser', formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => {
+                // 请求成功，解析数据并传递给 resolve
+                resolve(response);
+            })
+            .catch(error => {
+                // 请求失败，传递错误信息给 reject
+                reject(error);
+            });
+    });
+}

@@ -14,6 +14,7 @@
         </div>
         <button type="submit">登录</button>
       </form>
+      <a href="/signup">注册账户</a>
     </div>
   </div>
 </template>
@@ -43,7 +44,7 @@ export default {
           console.log(data.data.menuList[0].children);
           if (data.code == 200) {
             this.$store.dispatch("user/login", data.data);
-            router.push('/');
+            router.push("/");
           }
         })
         .catch((error) => {
