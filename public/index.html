@@ -8,9 +8,11 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
+    <script>
+      window._AMapSecurityConfig = {
+          securityJsCode:'17174fdda4b6ff8c651a8c250a6c9d66',
+      };//在这里添加
+    </script>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
