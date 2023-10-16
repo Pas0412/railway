@@ -8,6 +8,8 @@
       :itemsPerPage="itemsPerPage"
       :currentPage="currentPage"
       :tableHeaders="tableHeaders"
+      :actions="actions"
+      :hasOperations="hasOperations"
     />
     <Pagination
       v-model:currentPage="currentPage"
@@ -47,14 +49,22 @@ export default {
       "传感器状态",
       "状态",
       "创建时间",
-      "操作",
     ]);
+
+    const actions = ref({
+        edit: true,    // 传递每种操作的配置
+        delete: true, // true 表示显示，false 表示隐藏
+        details: true,
+        annonce: false,
+        setoff: false
+    });
 
     const itemsPerPage = ref(10);
     const currentPage = ref(1);
     const deviceName = ref("");
     const totalItems = ref(0);
     const maxPage = ref(1);
+    const hasOperations = ref(true);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -109,7 +119,6 @@ export default {
           sensorAbnormalCondition: item.sensorAbnormalCondition,
           deviceState: item.deviceState,
           sysAddTime: item.sysAddTime,
-          operation: "修改/删除/详情"
         });
       });
 
@@ -125,7 +134,6 @@ export default {
           sensorAbnormalCondition: ' ',
           deviceState: ' ',
           sysAddTime: ' ',
-          operation: ' '
          });
       }
 
@@ -148,7 +156,9 @@ export default {
       nextPage,
       updateItemsPerPage,
       goToPageInput,
-      goToPage
+      goToPage,
+      actions,
+      hasOperations
     };
   },
 };

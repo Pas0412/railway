@@ -8,6 +8,8 @@
       :itemsPerPage="itemsPerPage"
       :currentPage="currentPage"
       :tableHeaders="tableHeaders"
+      :actions="actions"
+      :hasOperations="hasOperations"
     />
     <Pagination
       v-model:currentPage="currentPage"
@@ -50,6 +52,14 @@ export default {
       "备注"
     ]);
 
+    const actions = ref({
+        edit: false,    // 传递每种操作的配置
+        delete: false, // true 表示显示，false 表示隐藏
+        details: false,
+        annonce: false,
+        setoff: false
+    });
+
     const itemsPerPage = ref(10);
     const currentPage = ref(1);
     const department = ref("");
@@ -58,6 +68,7 @@ export default {
     const userName = ref("");
     const totalItems = ref(0);
     const maxPage = ref(1);
+    const hasOperations = ref(false);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -155,7 +166,9 @@ export default {
       nextPage,
       updateItemsPerPage,
       goToPageInput,
-      goToPage
+      goToPage,
+      actions,
+      hasOperations
     };
   },
 };

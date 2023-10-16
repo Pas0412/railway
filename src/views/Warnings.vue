@@ -8,6 +8,8 @@
       :itemsPerPage="itemsPerPage"
       :currentPage="currentPage"
       :tableHeaders="tableHeaders"
+      :actions="actions"
+      :hasOperations="hasOperations"
     />
     <Pagination
       v-model:currentPage="currentPage"
@@ -45,9 +47,16 @@ export default {
       "预警等级",
       "是否解除",
       "创建时间",
-      "操作",
       "备注"
     ]);
+
+    const actions = ref({
+        edit: false,    // 传递每种操作的配置
+        delete: false, // true 表示显示，false 表示隐藏
+        details: false,
+        annonce: true,
+        setoff: true
+    });
 
     const itemsPerPage = ref(10);
     const currentPage = ref(1);
@@ -57,6 +66,7 @@ export default {
     const startTime = ref("");
     const totalItems = ref(0);
     const maxPage = ref(1);
+    const hasOperations = ref(true);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -111,7 +121,6 @@ export default {
           warmLevel: item.warmLevel,
           warmState: item.warmState,
           warm_time: item.warm_time,
-          operation: "通知/解除",
           note: ' ',
         });
       });
@@ -126,7 +135,6 @@ export default {
           warmLevel: ' ',
           warmState: ' ',
           warm_time: ' ',
-          operation: ' ',
           note: ' ',
         });
       }
@@ -153,7 +161,9 @@ export default {
       nextPage,
       updateItemsPerPage,
       goToPageInput,
-      goToPage
+      goToPage,
+      actions,
+      hasOperations
     };
   },
 };
