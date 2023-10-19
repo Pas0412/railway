@@ -17,7 +17,10 @@ import AMapLoader from "@amap/amap-jsapi-loader";
 import { ref, shallowRef } from 'vue';
 
 export default {
-  setup() {
+  props: {
+    center: Array
+  },
+  setup(props) {
     const keyword = ref('');
     const form = ref({
       address: '',
@@ -34,7 +37,7 @@ export default {
           map = new AMap.Map('container', {
             resizeEnable: true,
             zoom: 15,
-            center: [104.05148, 30.6982],
+            center: props.center,
           });
           AMap.plugin(
             ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Geocoder'],

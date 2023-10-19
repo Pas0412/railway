@@ -3,6 +3,7 @@
   <div class="settings">
     <!-- 在此添加设置页面内容 -->
     <input v-model="deviceName" type="text" placeholder="搜索设备" />
+    <DeviceDetail :showModal="showModal" @update:showModal="showModal = $event" :data="deviceDetailData"/>
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
@@ -10,6 +11,7 @@
       :tableHeaders="tableHeaders"
       :actions="actions"
       :hasOperations="hasOperations"
+      @showDetails="showDetails"
     />
     <Pagination
       v-model:currentPage="currentPage"
@@ -30,14 +32,19 @@ import { ref, onMounted } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
 import { getDevices } from "@/services/devices";
+import DeviceDetail from "@/components/DeviceDetail.vue";
+
 export default {
   // 在此添加组件逻辑
   components: {
     TableComponent,
     Pagination,
+    DeviceDetail
   },
   setup() {
     const tableData = ref([]);
+
+    const showModal = ref(false);
 
     const tableHeaders = ref([
       "ID",
@@ -65,6 +72,7 @@ export default {
     const totalItems = ref(0);
     const maxPage = ref(1);
     const hasOperations = ref(true);
+    const deviceDetailData = ref(null);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -107,7 +115,6 @@ export default {
       const deviceData = [];
       totalItems.value = response.total;
       maxPage.value = response.pages;
-      console.log(currentPage.value);
       response.records.forEach((item) => {
         deviceData.push({
           deviceId: item.deviceId,
@@ -140,6 +147,25 @@ export default {
       tableData.value = deviceData;
     };
 
+    const fetchDeviceDetail = async (name) => {
+      const response = await getDevices(
+        name,
+        1,
+        1
+      );
+      console.log(response.records[0]);
+      return response.records[0]
+    }
+    
+    const showDetails = async (device) => {
+      deviceDetailData.value = await fetchDeviceDetail(device.deviceName)
+      openModal();
+    }
+
+    const openModal = () => {
+      showModal.value = true;
+    };
+
     onMounted(() => {
       fetchDeviceData();
     });
@@ -158,7 +184,12 @@ export default {
       goToPageInput,
       goToPage,
       actions,
-      hasOperations
+      hasOperations,
+      showModal,
+      openModal,
+      showDetails,
+      deviceDetailData,
+      fetchDeviceDetail
     };
   },
 };
