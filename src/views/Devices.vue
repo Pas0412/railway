@@ -2,7 +2,16 @@
 <template>
   <div class="settings">
     <!-- 在此添加设置页面内容 -->
-    <input v-model="deviceName" type="text" placeholder="搜索设备" />
+    <div class="table-header-operations">
+      <div class="left-part">
+        <input v-model="deviceName" type="text" placeholder="请输入设备关键字" />
+        <button>搜索</button>
+        <button>刷新</button>
+      </div>
+      <div class="right-part">
+        <button>新增</button>
+      </div>
+    </div>
     <DeviceDetail :showModal="showModal" @update:showModal="showModal = $event" :data="deviceDetailData"/>
     <TableComponent
       :data="tableData"
@@ -201,5 +210,47 @@ export default {
   width: 100%;
   color: black;
   background-color: white;
+}
+
+.table-header-operations {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-part {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.left-part button {
+  height: 35px;
+  margin-left: 10px;
+  width: 100px;
+  color: black;
+}
+
+.left-part button:first-of-type {
+  background-color: lightblue;
+}
+
+.left-part button:last-child {
+  background-color: lightgreen;
+}
+
+.right-part {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.right-part button:first-of-type {
+  height: 35px;
+  margin-right: 10px;
+  width: 120px;
+  background-color: lightcoral !important;
+  color: black;
 }
 </style>

@@ -1,8 +1,17 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="settings">
-    <!-- 在此添加设置页面内容 -->
-    <input v-model="userName" type="text" placeholder="搜索设备" />
+    <div class="table-header-operations">
+      <div class="left-part">
+        <input v-model="deviceName" type="text" placeholder="请输入名称或职务" />
+        <button>搜索</button>
+        <button>刷新</button>
+      </div>
+      <div class="right-part">
+        <button>新增</button>
+        <button>待处理事项</button>
+      </div>
+    </div>
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
@@ -180,5 +189,13 @@ export default {
   width: 100%;
   color: black;
   background-color: white;
+}
+
+.right-part button:last-child {
+  background-color: #007bff;
+  height: 35px;
+  margin-right: 10px;
+  width: 120px;
+  color: black;
 }
 </style>

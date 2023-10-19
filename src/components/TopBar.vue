@@ -42,6 +42,11 @@ export default {
   padding: 20px;
 }
 
+.top-bar button {
+  position: absolute;
+  right: 20px;
+}
+
 .list {
   height: 30px;
   width: 30px;

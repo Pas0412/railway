@@ -1,8 +1,20 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="settings">
-    <!-- 在此添加设置页面内容 -->
-    <input v-model="searchTerm" type="text" placeholder="搜索设备" />
+    <div class="table-header-operations">
+      <div class="left-part">
+        <input v-model="deviceName" type="text" placeholder="选择设备" />
+        <input v-model="deviceName" type="text" placeholder="选择传感器类型" />
+        <input v-model="deviceName" type="text" placeholder="开始日期" /> 至
+        <input v-model="deviceName" type="text" placeholder="结束日期" />
+        <button>刷新</button>
+      </div>
+      <div class="right-part">
+        <button>全部解除</button>
+        <button>预警录入</button>
+        <button>记录导出</button>
+      </div>
+    </div>
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
@@ -169,11 +181,64 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .settings {
   margin: 10px;
   width: 100%;
   color: black;
   background-color: white;
+}
+
+.table-header-operations {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-part {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.left-part button {
+  height: 35px;
+  margin-left: 10px;
+  width: 100px;
+  color: black;
+}
+
+.left-part input {
+  width: 100px;
+}
+
+.left-part button:first-of-type {
+  background-color: lightblue;
+}
+
+.right-part {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.right-part button {
+  height: 35px;
+  margin-right: 10px;
+  width: 120px;
+  color: black;
+}
+
+.right-part button:first-child {
+  background-color: lightgreen;
+}
+
+.right-part button:nth-child(2) {
+  background-color: lightcoral;
+}
+
+.right-part button:last-child {
+  background-color: lightblue;
 }
 </style>

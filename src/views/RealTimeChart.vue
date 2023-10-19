@@ -2,6 +2,17 @@
 <template>
     <div class="settings">
       <!-- 在此添加设置页面内容 -->
+      <div class="table-header-operations">
+      <div class="left-part">
+        <input v-model="deviceName" type="text" placeholder="选择设备" />
+        <input v-model="deviceName" type="text" placeholder="选择传感器类型" />
+        <input v-model="deviceName" type="text" placeholder="选择传感器" />
+      </div>
+      <div class="right-part">
+        <button>单次测量值</button>
+        <button>刷新</button>
+      </div>
+    </div>
     </div>
   </template>
   
