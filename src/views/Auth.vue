@@ -3,7 +3,7 @@
   <div class="settings">
     <div class="table-header-operations">
       <div class="left-part">
-        <input v-model="deviceName" type="text" placeholder="请输入名称或职务" />
+        <input v-model="userName" type="text" placeholder="请输入名称或职务" />
         <button>搜索</button>
         <button>刷新</button>
       </div>

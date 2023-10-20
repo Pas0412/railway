@@ -4,13 +4,13 @@
     <!-- 在此添加设置页面内容 -->
     <div class="table-header-operations">
       <div class="left-part">
-        <input v-model="deviceName" type="text" placeholder="选择设备" />
-        <input v-model="deviceName" type="text" placeholder="选择传感器类型" />
-        <input v-model="deviceName" type="text" placeholder="选择传感器" />
+        <input v-model="deviceId" type="text" placeholder="选择设备" />
+        <input v-model="sensorTypeId" type="text" placeholder="选择传感器类型" />
+        <input v-model="sensorId" type="text" placeholder="选择传感器" />
       </div>
       <div class="right-part">
-        <input v-model="deviceName" type="text" placeholder="开始日期" /> 至
-        <input v-model="deviceName" type="text" placeholder="结束日期" />
+        <input v-model="startTime" type="text" placeholder="开始日期" /> 至
+        <input v-model="endTime" type="text" placeholder="结束日期" />
         <button>刷新</button>
       </div>
     </div>
