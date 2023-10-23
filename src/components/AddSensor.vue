@@ -42,13 +42,13 @@
             <input
               type="number"
               id="range-min"
-              v-model="formData.range.min"
+              v-model="formData.rangeMinValue"
               required
             />
             <input
               type="number"
               id="range-max"
-              v-model="formData.range.max"
+              v-model="formData.rangeMaxValue"
               required
             />
           </div>
@@ -58,7 +58,7 @@
           <input
             type="number"
             id="temperature"
-            v-model="formData.temperature"
+            v-model="formData.setTemperature"
             required
           />
         </div>
@@ -126,13 +126,14 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 1000px;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 1;
   transition: opacity 0.3s;
+  overflow: hidden;
   z-index: 1000;
 }
 
@@ -142,6 +143,8 @@ export default {
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   animation: slide-up 0.3s;
+  width: 600px;
+  height: 1000px;
 }
 
 @keyframes slide-up {
@@ -156,10 +159,12 @@ export default {
 .modal-header {
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
   align-items: center;
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
   margin-bottom: 10px;
+  color: black;
 }
 
 .modal-header h2 {
@@ -167,24 +172,30 @@ export default {
 }
 
 .modal-header button {
-  background: none;
-  border: none;
+  /* background: none;
+  border: none; */
   font-size: 20px;
+  color: black;
   cursor: pointer;
 }
 
 .form-field {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .form-field label {
   display: block;
   font-weight: bold;
+  width: 50px;
 }
 
 .form-field input,
 .form-field textarea {
-  width: 100%;
+  /* width: 100%; */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;

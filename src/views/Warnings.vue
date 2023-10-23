@@ -7,7 +7,7 @@
         <input v-model="sensorTypeId" type="text" placeholder="选择传感器类型" />
         <input v-model="startTime" type="text" placeholder="开始日期" /> 至
         <input v-model="endTime" type="text" placeholder="结束日期" />
-        <button>刷新</button>
+        <button @click="fetchWarnings">刷新</button>
       </div>
       <div class="right-part">
         <button>全部解除</button>

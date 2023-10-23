@@ -21,7 +21,7 @@
       <div class="right-part">
         <input v-model="startTime" type="text" placeholder="开始日期" /> 至
         <input v-model="endTime" type="text" placeholder="结束日期" />
-        <button>刷新</button>
+        <button @click="fetchMonitoringData">刷新</button>
       </div>
     </div>
     <TableComponent

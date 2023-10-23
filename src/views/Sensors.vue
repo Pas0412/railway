@@ -4,14 +4,14 @@
     <div class="table-header-operations">
       <div class="left-part">
         <input v-model="sensorName" type="text" placeholder="请输入传感器关键字" />
-        <button>搜索</button>
-        <button>刷新</button>
+        <button @click="fetchSensorData">搜索</button>
+        <button @click="fetchSensorData">刷新</button>
       </div>
       <div class="right-part">
         <button @click="addSensor">新增</button>
       </div>
     </div>
-    <AddSensor :showModal="showModal"/>
+    <AddSensor :showModal="showModal" @update:showModal="showModal = $event"/>
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
