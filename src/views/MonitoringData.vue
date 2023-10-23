@@ -5,8 +5,18 @@
     <div class="table-header-operations">
       <div class="left-part">
         <input v-model="deviceId" type="text" placeholder="选择设备" />
-        <input v-model="sensorTypeId" type="text" placeholder="选择传感器类型" />
-        <input v-model="sensorId" type="text" placeholder="选择传感器" />
+        <input
+          v-model="sensorTypeId"
+          type="text"
+          placeholder="选择传感器类型"
+        />
+        <input v-model="sensorId" type="text" placeholder="选择传感器"/>
+        <select v-model="selectedItem" class="custom-select">
+          <option value="">选择预测方法</option>
+          <option v-for="item in methods" :key="item" :value="item.methodId">
+            {{ item.methodName }}
+          </option>
+        </select>
       </div>
       <div class="right-part">
         <input v-model="startTime" type="text" placeholder="开始日期" /> 至
@@ -40,7 +50,7 @@
 import { ref, onMounted } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
-import { monitoringData } from "@/services/data";
+import { monitoringData, getMethods } from "@/services/data";
 export default {
   // 在此添加组件逻辑
   components: {
@@ -72,13 +82,15 @@ export default {
     const totalItems = ref(0);
     const maxPage = ref(1);
     const hasOperations = ref(false);
+    const methods = ref([]);
+    const selectedItem = ref("");
 
     const actions = ref({
-        edit: false,    // 传递每种操作的配置
-        delete: false, // true 表示显示，false 表示隐藏
-        details: false,
-        annonce: false,
-        setoff: false
+      edit: false, // 传递每种操作的配置
+      delete: false, // true 表示显示，false 表示隐藏
+      details: false,
+      annonce: false,
+      setoff: false,
     });
 
     const previousPage = () => {
@@ -160,7 +172,15 @@ export default {
 
     onMounted(() => {
       fetchMonitoringData();
+      getForeCast();
     });
+
+    const getForeCast = async () => {
+      const response = await getMethods(
+        sensorTypeId.value
+      );
+      methods.value = response
+    }
 
     return {
       tableData,
@@ -181,7 +201,10 @@ export default {
       goToPageInput,
       goToPage,
       hasOperations,
-      actions
+      actions,
+      methods,
+      getForeCast,
+      selectedItem
     };
   },
 };
@@ -201,5 +224,33 @@ export default {
   margin-right: 10px;
   width: 120px;
   color: black;
+}
+
+.table-header-operations {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-part {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.right-part {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.custom-select {
+  /* 自定义样式 */
+  width: 200px;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  color: grey;
 }
 </style>

@@ -3,12 +3,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2>表单</h2>
-        <button @click="closeModal">关闭</button>
+        <button @click="closeModal">x</button>
       </div>
       <form @submit.prevent="submitForm">
         <div class="form-field">
           <label for="device">设备:</label>
-          <input type="text" id="device" v-model="formData.device" required />
+          <input type="text" id="device" v-model="formData.deviceId" required />
         </div>
         <div class="form-field">
           <label for="channel">通道:</label>
@@ -92,15 +92,13 @@ export default {
   data() {
     return {
       formData: {
-        device: "",
+        deviceId: "",
         channel: "",
         name: "",
         calibration: "",
         frequency: "",
-        range: {
-          min: "",
-          max: "",
-        },
+        rangeMaxValue: 0.0,
+        rangeMinValue: 0.0,
         temperature: "",
         formula: "",
         location: "",
@@ -114,6 +112,7 @@ export default {
     submitForm() {
       // 处理表单提交逻辑
       console.log("Form Data:", this.formData);
+
       this.closeModal();
     },
   },
@@ -132,7 +131,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s;
   z-index: 1000;
 }

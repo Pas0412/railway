@@ -8,9 +8,10 @@
         <button>刷新</button>
       </div>
       <div class="right-part">
-        <button>新增</button>
+        <button @click="addSensor">新增</button>
       </div>
     </div>
+    <AddSensor :showModal="showModal"/>
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
@@ -38,11 +39,13 @@ import { ref, onMounted, triggerRef } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
 import { getSensors } from "@/services/sensors";
+import AddSensor from "@/components/AddSensor.vue";
 export default {
   // 在此添加组件逻辑
   components: {
     TableComponent,
     Pagination,
+    AddSensor
   },
   setup() {
     const tableData = ref([]);
@@ -64,6 +67,7 @@ export default {
     const totalItems = ref(0);
     const maxPage = ref(1);
     const hasOperations = ref(true);
+    const showModal = ref(false);
 
     const actions = ref({
         edit: true,    // 传递每种操作的配置
@@ -150,6 +154,10 @@ export default {
       fetchSensorData();
     });
 
+    const addSensor = () => {
+      showModal.value = true;
+    }
+
     return {
       tableData,
       totalItems,
@@ -164,7 +172,9 @@ export default {
       goToPageInput,
       goToPage,
       actions,
-      hasOperations
+      hasOperations,
+      addSensor,
+      showModal
     };
   },
 };
