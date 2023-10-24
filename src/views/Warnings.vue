@@ -22,6 +22,7 @@
       :tableHeaders="tableHeaders"
       :actions="actions"
       :hasOperations="hasOperations"
+      @setOff="setOff"
     />
     <Pagination
       v-model:currentPage="currentPage"
@@ -41,7 +42,7 @@
 import { ref, onMounted } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
-import { getWarnings } from "@/services/warnings";
+import { getWarnings, setOffWarning } from "@/services/warnings";
 export default {
   // 在此添加组件逻辑
   components: {
@@ -154,6 +155,11 @@ export default {
       tableData.value = wData;
     };
 
+    const setOff = async (device) => {
+      var res = await setOffWarning(device.WarmId);
+      console.log(res);
+    }
+
     onMounted(() => {
       fetchWarnings();
     });
@@ -175,7 +181,8 @@ export default {
       goToPageInput,
       goToPage,
       actions,
-      hasOperations
+      hasOperations,
+      setOff
     };
   },
 };
@@ -230,8 +237,8 @@ export default {
   color: black;
 }
 
-.right-part button:first-child {
-  background-color: lightgreen;
+.right-part button:first-of-type {
+  background-color: lightgreen !important;
 }
 
 .right-part button:nth-child(2) {

@@ -19,45 +19,92 @@
         <button>刷新</button>
       </div>
     </div>
+    <div>
+      <DataChart :chartData=chartData />
+    </div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
-import { getMethods } from "@/services/data";
+import { getMethods, getChartData } from "@/services/data";
+import DataChart from "@/components/DataChart.vue";
 export default {
+  components: {
+    DataChart
+  },
   // 在此添加组件逻辑
   setup() {
-    const deviceId = ref("");
+    const deviceId = ref(1);
     const endTime = ref("");
-    const methodID = ref("");
+    const methodId = ref("");
     const sensorId = ref("");
     const sensorTypeId = ref("");
     const startTime = ref("");
     const methods = ref([]);
     const selectedItem = ref("");
+    const chartData = ref(null);
 
     const getForeCast = async () => {
       const response = await getMethods(
         sensorTypeId.value
       );
-      methods.value = response
+      methods.value = response;
+    }
+
+    const getChart = async () => {
+      const response = await getChartData(
+        deviceId.value,
+        methodId.value,
+        sensorId.value,
+        sensorTypeId.value
+      );
+      const labels = [];
+      const totalData = [];
+      const forecastData = [];
+      response.forEach((item) => {
+        labels.push(item.channelName);
+        totalData.push(item.totalValue);
+        forecastData.push(item.forecastValue);
+      });
+      chartData.value = {
+        labels: labels,
+        datasets: [
+          {
+            label: '累计物理量',
+            data: totalData,
+            fill: false,
+            borderColor: 'blue',
+            tension: 0.1,
+          },
+          {
+            label: '预测',
+            data: forecastData,
+            fill: false,
+            borderColor: 'red',
+            tension: 0.1,
+          },
+        ],
+      };
     }
 
     onMounted(() => {
       getForeCast();
+      getChart();
     })
 
     return {
       deviceId,
       endTime,
-      methodID,
+      methodId,
       sensorId,
       sensorTypeId,
       startTime,
       methods,
       getForeCast,
-      selectedItem
+      selectedItem,
+      chartData,
+      getChart
     };
   },
 };

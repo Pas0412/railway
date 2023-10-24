@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="map-container">
-      <AmapMap :center="this.center"/>
+      <AmapMap :center="this.center" :zoom=15 />
       <div class="project-container">
         <div class="project-title">工程简介</div>
         <div class="project-description">{{ this.description }}</div>
@@ -63,7 +63,7 @@ export default {
       barChartTitle: "预警情况",
       pieChartData: null,
       pieChartTitle: "在线情况",
-      center: [104.05148, 30.6982],
+      center: [103.4103, 24.3355],
       description: "金温铁路线路自东孝站引出后，沿金温货线增建二线至金华南站。金温铁路新双线自金华南站引出，在武义县城偏东北距武义站约8千米的汤村设武义北站;出站后，线路跨过武义县深塘工业区，在千金山森林公园(省级)南侧边缘通过。随后穿过永康市规划区，跨越永康江、武二线及永康市五金大道，在永康市金大道以东设永康南站。出站后，线路向南拐，过蝙蝠岭，经新店镇东侧，跨金丽温高速公路和小溪，穿越茶叶山，再跨金丽温高速公路和新建溪，在缙云县城西七里乡设缙云西站。"
     };
   },
@@ -151,6 +151,7 @@ export default {
 .map-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .project-container {

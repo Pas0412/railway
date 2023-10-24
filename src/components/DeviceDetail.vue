@@ -117,6 +117,9 @@
           </div>
         </div>
         <!-- 添加更多块数据根据实际需要 -->
+        <div class="device-map">
+          <AmapMap :center="[displayedData.deviceLon, displayedData.deviceLat]" :zoom=10 />
+        </div>
       </div>
       </div>
     </div>
@@ -125,7 +128,11 @@
 
 <script>
 import { computed } from "vue";
+import AmapMap from '@/components/AmapMap.vue';
 export default {
+  components: {
+    AmapMap
+  },
   props: {
     showModal: {
       type: Boolean,
@@ -143,7 +150,6 @@ export default {
     const closeModal = () => {
       emit('update:showModal', false); // 向父组件发出关闭弹窗事件
     };
-
     return {
       closeModal,
       displayedData
@@ -272,5 +278,10 @@ export default {
   display: flex;
   margin-bottom: 10px;
   flex-direction: column;
+}
+
+.device-map {
+  height: 300px;
+  width: 100%;
 }
 </style>

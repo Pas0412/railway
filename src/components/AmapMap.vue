@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div id="container" style="width: 70%; height: 500px; position: relative">
+    <div id="container" style="width: 600px; height: 500px; position: relative">
       <input
         v-model="keyword"
         class="keyword"
@@ -18,7 +18,8 @@ import { ref, shallowRef } from 'vue';
 
 export default {
   props: {
-    center: Array
+    center: Array,
+    zoom: Number
   },
   setup(props) {
     const keyword = ref('');
@@ -29,14 +30,14 @@ export default {
 
     const ininMap = () => {
       AMapLoader.load({
-        key: '',
+        key: '', //这里添加高德地图key
         version: '1.4.4',
         plugins: ['AMap.PlaceSearch', 'AMap.AutoComplete']
       })
         .then((AMap) => {
           map = new AMap.Map('container', {
             resizeEnable: true,
-            zoom: 15,
+            zoom: props.zoom,
             center: props.center,
           });
           AMap.plugin(

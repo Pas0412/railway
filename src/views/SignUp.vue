@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="login-container">
-    <div class="login">
+    <div class="signup">
       <h2>用户注册</h2>
       <form @submit.prevent="signup" class="form">
         <div>
@@ -158,7 +158,7 @@ export default {
   position: absolute;
 }
 
-.login {
+.signup {
   width: 600px;
   margin: 0 auto;
   padding: 20px;

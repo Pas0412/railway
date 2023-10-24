@@ -43,6 +43,7 @@
       @goToPageInput="goToPageInput"
       @goToPage="goToPage"
     />
+    <button class="download" @click="download">下载</button>
   </div>
 </template>
 
@@ -182,6 +183,10 @@ export default {
       methods.value = response
     }
 
+    const download = async () => {
+
+    }
+
     return {
       tableData,
       totalItems,
@@ -204,7 +209,8 @@ export default {
       actions,
       methods,
       getForeCast,
-      selectedItem
+      selectedItem,
+      download
     };
   },
 };
@@ -252,5 +258,13 @@ export default {
   border-radius: 5px;
   border: 1px solid #ccc;
   color: grey;
+}
+
+.download {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  background-color: lightcoral;
+  color: black;
 }
 </style>

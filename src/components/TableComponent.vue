@@ -17,7 +17,7 @@
             <span v-if="actions.delete" @click="deleteDevice(device)" class="action-link">删除</span>
             <span v-if="actions.details" @click="() => $emit('showDetails', device)" class="action-link"> / 详情</span>
             <span v-if="actions.annonce" @click="annonce(device)" class="action-link">通知 / </span>
-            <span v-if="actions.setoff" @click="setOff(device)" class="action-link">解除</span>
+            <span v-if="actions.setoff" @click="() => $emit('setOff', device)" class="action-link">解除</span>
           </td>
           <td v-if="isEmptyRow(device)"><span></span></td>
         </tr>
@@ -58,11 +58,6 @@ export default {
       console.log("Delete Device:", device);
     };
 
-    const setOff = (device) => {
-      // 在这里执行显示详情操作
-      console.log("Show Details for Device:", device);
-    };
-
     const isEmptyRow = (device) => {
       if (device.deviceId == " " || device.WarmId == ' ' || device.sensorId == " "){
         return true;
@@ -82,7 +77,6 @@ export default {
       editDevice,
       deleteDevice,
       annonce,
-      setOff,
       isEmptyRow,
       showOperations
     };

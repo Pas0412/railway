@@ -8,10 +8,11 @@
         <button @click="fetchUserList">刷新</button>
       </div>
       <div class="right-part">
-        <button>新增</button>
-        <button>待处理事项</button>
+        <button @click="newUser">新增</button>
+        <button @click="handle">待处理事项</button>
       </div>
     </div>
+    <Modal :showModal="showModal" @update:showModal="showModal = $event"/>
     <TableComponent
       :data="tableData"
       :itemsPerPage="itemsPerPage"
@@ -39,11 +40,14 @@ import { ref, onMounted } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
 import { userList } from "@/services/user";
+import router from '@/router';
+import Modal from '@/components/Modal.vue';
 export default {
   // 在此添加组件逻辑
   components: {
     TableComponent,
     Pagination,
+    Modal
   },
   setup() {
     const tableData = ref([]);
@@ -78,6 +82,7 @@ export default {
     const totalItems = ref(0);
     const maxPage = ref(1);
     const hasOperations = ref(false);
+    const showModal = ref(false);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -160,6 +165,14 @@ export default {
       fetchUserList();
     });
 
+    const newUser = () => {
+      router.push('/signup');
+    }
+
+    const handle = () => {
+      showModal.value = true;
+    };
+
     return {
       tableData,
       totalItems,
@@ -177,7 +190,10 @@ export default {
       goToPageInput,
       goToPage,
       actions,
-      hasOperations
+      hasOperations,
+      newUser,
+      handle,
+      showModal
     };
   },
 };
