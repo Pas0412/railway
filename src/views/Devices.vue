@@ -204,7 +204,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .settings {
   margin: 10px;
   width: 100%;

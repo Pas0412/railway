@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import store from '@/store';
+// import store from '@/store';
 
 const routes = [
     {
@@ -12,8 +12,8 @@ const routes = [
             {
                 path: 'data', component: () => import('@/views/Data.vue')
             },
-            { path: 'monitoring-data', component: () => import('@/views/MonitoringData.vue') },
-            { path: 'real-time-chart', component: () => import('@/views/RealTimeChart.vue') },
+            { path: 'monitoring-data', component: () => import('@/views/MonitoringData.vue')},
+            { path: 'real-time-chart', component: () => import('@/views/RealTimeChart.vue')},
             { path: 'warnings', component: () => import('@/views/Warnings.vue') },
             { path: 'auth', component: () => import('@/views/Auth.vue') },
             { path: 'settings', component: () => import('@/views/Settings.vue') },
@@ -36,7 +36,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const isLogin = store.getters['user/isAuthenticated'];
+    // const isLogin = store.getters['user/isAuthenticated'];
+    const isLogin = localStorage.getItem('user');
     if (to.meta.requiresAuth && !isLogin) {
         // 如果需要登录而且用户未认证，重定向到登录页面
         next('/login');

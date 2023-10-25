@@ -28,11 +28,15 @@ const actions = {
     commit('SET_USER', user);
     const menuList = user.menuList[0].children;
     const processedMenuList = processMenuList(menuList); // 函数用于处理 menuList
+    localStorage.setItem('user', user);
+    localStorage.setItem('menuList', JSON.stringify(processedMenuList));
     commit('SET_MENU_LIST', processedMenuList);
   },
   logout({ commit }) {
     commit('CLEAR_TOKEN');
     commit('CLEAR_USER');
+    localStorage.removeItem('user');
+    localStorage.removeItem('menuList');
   },
 };
 

@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import router from "@/router";
+// import router from "@/router";
 export default {
   data() {
     return {
@@ -72,12 +72,15 @@ export default {
   },
   computed: {
     sidebarVisible() {
+      console.log(this.$store.state.sidebar.sidebarVisible);
       return this.$store.state.sidebar.sidebarVisible; // 从 Vuex 中获取侧边栏状态
     },
     menuList() {
-      console.log(router.options.routes);
-      console.log(this.$store.getters["user/getMenuList"]);
-      return this.$store.getters["user/getMenuList"];
+      const storedMenuList = localStorage.getItem('menuList');
+      // console.log(storedMenuList);
+    
+    // 如果LocalStorage中有存储的menuList，就使用它，否则从Vuex获取
+    return storedMenuList ? JSON.parse(storedMenuList) : this.$store.getters["user/getMenuList"];
     },
   },
   watch: {
@@ -96,7 +99,7 @@ export default {
       const authPath = "/auth";
       const settingsPath = "/settings";
 
-      console.log(this.$route.fullPath);
+      // console.log(this.$route.fullPath);
 
       if (currentPath != dataPath || !currentPath.startsWith(`${dataPath}/`)) {
         this.toggleSubSidebar();

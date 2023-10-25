@@ -108,7 +108,7 @@ export default {
     };
 
     const updateItemsPerPage = (newItemsPerPage) => {
-      console.log(newItemsPerPage);
+      // console.log(newItemsPerPage);
       itemsPerPage.value = newItemsPerPage;
       currentPage.value = 1; // Reset to the first page when changing items per page
       fetchMonitoringData();
@@ -216,7 +216,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .settings {
   margin: 10px;
   width: 100%;
@@ -251,9 +251,13 @@ export default {
   align-items: center;
 }
 
+.right-part input {
+  width: 80px;
+}
+
 .custom-select {
   /* 自定义样式 */
-  width: 200px;
+  width: 180px;
   height: 35px;
   border-radius: 5px;
   border: 1px solid #ccc;

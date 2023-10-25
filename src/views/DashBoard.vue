@@ -111,7 +111,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .dashboard {
   margin: 10px;
   width: 100%;

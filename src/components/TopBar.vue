@@ -15,8 +15,9 @@
 <script>
 import router from '@/router';
 export default {
-    computed: {
+  computed: {
     sidebarVisible() {
+      console.log(this.$store.state.sidebar.sidebarVisible);
       return this.$store.state.sidebar.sidebarVisible; // 从 Vuex 中获取侧边栏状态
     },
   },
