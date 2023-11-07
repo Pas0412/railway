@@ -30,7 +30,7 @@ export default {
 
     const ininMap = () => {
       AMapLoader.load({
-        key: '', //这里添加高德地图key
+        key: '44644ff35c7f55a1b9bc44f67c93d8ca', //这里添加高德地图key
         version: '1.4.4',
         plugins: ['AMap.PlaceSearch', 'AMap.AutoComplete']
       })

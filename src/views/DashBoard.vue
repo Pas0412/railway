@@ -134,7 +134,8 @@ export default {
 .squares {
   margin-left: 30px;
   height: 210px;
-  width: 40%;
+  /* width: 40%; */
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 两列 */
   grid-template-rows: repeat(2, 1fr); /* 两行 */
@@ -151,7 +152,8 @@ export default {
 .map-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+  margin-left: 30px;
 }
 
 .project-container {
@@ -172,5 +174,6 @@ export default {
   display: flex;
   justify-content: flex-start;
   text-align: start;
+  flex: 1;
 }
 </style>

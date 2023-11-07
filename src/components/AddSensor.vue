@@ -2,7 +2,7 @@
   <div class="modal" v-if="showModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>表单</h2>
+        <h2>添加传感器</h2>
         <button @click="closeModal">x</button>
       </div>
       <form @submit.prevent="submitForm">
