@@ -1,6 +1,6 @@
 import axiosInstance from './index.js';
 
-// 获取用户信息
+// 获取传感器列表
 export function getSensors(sensorName, pageNum, pageSize) {
     const formData = new FormData();
     formData.append('sensorName', sensorName);
@@ -25,6 +25,7 @@ export function getSensors(sensorName, pageNum, pageSize) {
     });
 }
 
+// 添加传感器
 export function addSensor(formData) {
     return new Promise((resolve, reject) => {
         axiosInstance.post('/sensor/addDevice', formData, {

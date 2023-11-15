@@ -22,6 +22,7 @@ export function userLogin(username, password) {
     });
 }
 
+// 获取用户列表（权限页面）
 export function userList(department, job, pageNum, pageSize, role, userName) {
     const formData = new FormData();
     formData.append('department', department);
@@ -48,6 +49,7 @@ export function userList(department, job, pageNum, pageSize, role, userName) {
     });
 }
 
+// 用户注册
 export function userSignUp(formData) {
     return new Promise((resolve, reject) => {
         axiosInstance.post('/user/addUser', formData, {

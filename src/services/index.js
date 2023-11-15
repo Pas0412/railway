@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const backendUrl = 'http://121.43.118.193:9473/RailwayMonitoring';
+const backendUrl = 'http://124.71.44.175/RailwayMonitoring';
 
 // 创建 Axios 实例
 const axiosInstance = axios.create({

@@ -1,6 +1,6 @@
 import axiosInstance from './index.js';
 
-// 获取用户信息
+// 获取预警列表
 export function getWarnings(
     configName,
     deviceId,
@@ -32,10 +32,11 @@ export function getWarnings(
     });
 }
 
+// 关闭预警
 export function setOffWarning(
     WarmId) {
     return new Promise((resolve, reject) => {
-        axiosInstance.post('/warmEvent/list', WarmId, {
+        axiosInstance.post('/warmEvent/secureWarm', WarmId, {
             headers: {
                 'Content-Type': 'application/json'
             }

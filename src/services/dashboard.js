@@ -1,6 +1,6 @@
 import axiosInstance from './index.js';
 
-// 获取用户信息
+// 获取四方格数据
 export function fetchDashBoardSquare() {
   return new Promise((resolve, reject) => {
     axiosInstance.post('/center/dataStatistics')

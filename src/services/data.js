@@ -1,6 +1,7 @@
 import axiosInstance from './index.js';
 
-// 获取用户信息
+// 数据监控子页面
+// 监测数据
 export function monitoringData(
     deviceId,
     endTime,
@@ -36,6 +37,7 @@ export function monitoringData(
     });
 }
 
+// 获取预测方法下拉选项
 export function getMethods(sensorTypeID) {
     const formData = new FormData();
     formData.append('sensorTypeID', sensorTypeID);
@@ -55,6 +57,7 @@ export function getMethods(sensorTypeID) {
     });
 }
 
+// 获取图表数据
 export function getChartData(deviceId, methodId, sensorId, sensorTypeId) {
     const formData = new FormData();
     formData.append('deviceId', deviceId);

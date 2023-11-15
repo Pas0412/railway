@@ -1,6 +1,6 @@
 import axiosInstance from './index.js';
 
-// 获取用户信息
+// 获取设备列表
 export function getDevices(deviceName, pageNum, pageSize) {
     const formData = new FormData();
     formData.append('deviceName', deviceName);
