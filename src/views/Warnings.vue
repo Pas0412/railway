@@ -5,9 +5,9 @@
       <div class="left-part">
         <input v-model="deviceId" type="text" placeholder="选择设备" />
         <input v-model="sensorTypeId" type="text" placeholder="选择传感器类型" />
-        <input v-model="startTime" type="text" placeholder="开始日期" /> 至
-        <input v-model="endTime" type="text" placeholder="结束日期" />
-        <button @click="fetchWarnings">刷新</button>
+        <input v-model="startTime" type="date" placeholder="开始日期" /> 至
+        <input v-model="endTime" type="date" placeholder="结束日期" />
+        <button @click="refresh">刷新</button>
       </div>
       <div class="right-part">
         <button>全部解除</button>
@@ -164,6 +164,10 @@ export default {
       fetchWarnings();
     });
 
+    const refresh = () => {
+      fetchWarnings();
+    }
+
     return {
       tableData,
       totalItems,
@@ -182,7 +186,8 @@ export default {
       goToPage,
       actions,
       hasOperations,
-      setOff
+      setOff,
+      refresh
     };
   },
 };

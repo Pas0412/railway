@@ -4,8 +4,8 @@
     <div class="table-header-operations">
       <div class="left-part">
         <input v-model="userName" type="text" placeholder="请输入名称或职务" />
-        <button @click="fetchUserList">搜索</button>
-        <button @click="fetchUserList">刷新</button>
+        <button @click="search">搜索</button>
+        <button @click="refresh">刷新</button>
       </div>
       <div class="right-part">
         <button @click="newUser">新增</button>
@@ -173,6 +173,14 @@ export default {
       showModal.value = true;
     };
 
+    const search = () => {
+      fetchUserList();
+    };
+
+    const refresh = () => {
+      fetchUserList();
+    };
+
     return {
       tableData,
       totalItems,
@@ -193,7 +201,9 @@ export default {
       hasOperations,
       newUser,
       handle,
-      showModal
+      showModal,
+      search,
+      refresh
     };
   },
 };

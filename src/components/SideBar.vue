@@ -127,7 +127,7 @@ export default {
         currentPath.startsWith(`${dataPath}/`)
       ) {
         this.activeSubSidebar();
-        this.activateSidebarItem("data");
+        this.activateSidebarItem("monitoring-data");
       } else if (
         currentPath === monitoringDataPath ||
         currentPath.startsWith(`${monitoringDataPath}/`)

@@ -72,6 +72,6 @@ export default {
 </script>
 <style>
 .pie-canvas {
-    height: 200px;
+    height: 150px;
 }
 </style>

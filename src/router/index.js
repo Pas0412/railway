@@ -10,7 +10,7 @@ const routes = [
             { path: 'devices', component: () => import('@/views/Devices.vue') },
             { path: 'sensors', component: () => import('@/views/Sensors.vue') },
             {
-                path: 'data', component: () => import('@/views/Data.vue')
+                path: 'data', component: () => import('@/views/MonitoringData.vue')
             },
             { path: 'monitoring-data', component: () => import('@/views/MonitoringData.vue')},
             { path: 'real-time-chart', component: () => import('@/views/RealTimeChart.vue')},

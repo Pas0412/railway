@@ -19,9 +19,9 @@
         </select>
       </div>
       <div class="right-part">
-        <input v-model="startTime" type="text" placeholder="开始日期" /> 至
-        <input v-model="endTime" type="text" placeholder="结束日期" />
-        <button @click="fetchMonitoringData">刷新</button>
+        <input v-model="startTime" type="date" placeholder="开始日期" /> 至
+        <input v-model="endTime" type="date" placeholder="结束日期" />
+        <button @click="refresh">刷新</button>
       </div>
     </div>
     <TableComponent
@@ -186,6 +186,10 @@ export default {
     const download = async () => {
 
     }
+    
+    const refresh = () => {
+      fetchMonitoringData();
+    }
 
     return {
       tableData,
@@ -210,7 +214,8 @@ export default {
       methods,
       getForeCast,
       selectedItem,
-      download
+      download,
+      refresh
     };
   },
 };

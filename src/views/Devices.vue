@@ -5,8 +5,8 @@
     <div class="table-header-operations">
       <div class="left-part">
         <input v-model="deviceName" type="text" placeholder="请输入设备关键字" />
-        <button @click="fetchDeviceData">搜索</button>
-        <button @click="fetchDeviceData">刷新</button>
+        <button @click="search">搜索</button>
+        <button @click="refresh">刷新</button>
       </div>
       <div class="right-part">
         <button>新增</button>
@@ -179,6 +179,14 @@ export default {
       fetchDeviceData();
     });
 
+    const search = () => {
+      fetchDeviceData();
+    };
+
+    const refresh = () => {
+      fetchDeviceData();
+    };
+
     return {
       tableData,
       totalItems,
@@ -198,7 +206,9 @@ export default {
       openModal,
       showDetails,
       deviceDetailData,
-      fetchDeviceDetail
+      fetchDeviceDetail,
+      search,
+      refresh
     };
   },
 };

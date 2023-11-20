@@ -16,7 +16,7 @@
       </div>
       <div class="right-part">
         <button>单次测量值</button>
-        <button>刷新</button>
+        <button @click="refresh">刷新</button>
       </div>
     </div>
     <div>
@@ -93,6 +93,10 @@ export default {
       getChart();
     })
 
+    const refresh = () => {
+      getChart();
+    }
+
     return {
       deviceId,
       endTime,
@@ -104,7 +108,8 @@ export default {
       getForeCast,
       selectedItem,
       chartData,
-      getChart
+      getChart,
+      refresh
     };
   },
 };

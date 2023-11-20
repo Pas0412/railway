@@ -4,8 +4,8 @@
     <div class="table-header-operations">
       <div class="left-part">
         <input v-model="sensorName" type="text" placeholder="请输入传感器关键字" />
-        <button @click="fetchSensorData">搜索</button>
-        <button @click="fetchSensorData">刷新</button>
+        <button @click="search">搜索</button>
+        <button @click="refresh">刷新</button>
       </div>
       <div class="right-part">
         <button @click="addSensor">新增</button>
@@ -158,6 +158,14 @@ export default {
       showModal.value = true;
     }
 
+    const search = () => {
+      fetchSensorData();
+    }
+
+    const refresh = () => {
+      fetchSensorData();
+    }
+
     return {
       tableData,
       totalItems,
@@ -174,7 +182,9 @@ export default {
       actions,
       hasOperations,
       addSensor,
-      showModal
+      showModal,
+      search,
+      refresh
     };
   },
 };

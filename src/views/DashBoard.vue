@@ -80,25 +80,25 @@ export default {
           this.barChartData = {
             labels: [
               this.squareData.warmSituation[0].warm_level,
-              this.squareData.warmSituation[2].warm_level,
               this.squareData.warmSituation[1].warm_level,
+              this.squareData.warmSituation[2].warm_level,
             ],
-            label: "柱状图数据",
+            label: "预警数",
             data: [
               this.squareData?.warmSituation[0].count,
-              this.squareData?.warmSituation[2].count,
               this.squareData?.warmSituation[1].count,
+              this.squareData?.warmSituation[2].count,
             ],
             backgroundColor: [
-              "cornflowerblue",
-              "cornflowerblue",
-              "cornflowerblue",
+              "red",
+              "orange",
+              "yellow",
             ],
           };
           this.pieChartData = {
-            labels: [this.squareData?.deviceOnlineSituation[0].device_state],
-            data: [this.squareData?.deviceOnlineSituation[0].count],
-            backgroundColor: ["lightgreen"],
+            labels: [this.squareData?.deviceOnlineSituation[0].device_state, "不在线"],
+            data: [this.squareData?.deviceOnlineSituation[0].count, 10],
+            backgroundColor: ["lightgreen", "lightgrey"],
           },
             (this.isUpdated = true);
         })
