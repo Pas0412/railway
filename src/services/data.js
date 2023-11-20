@@ -57,6 +57,63 @@ export function getMethods(sensorTypeID) {
     });
 }
 
+// 获取设备下拉选项
+export function getDevices() {
+    return new Promise((resolve, reject) => {
+        axiosInstance.post('/device/deviceListSelect', {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            // 请求成功，解析数据并传递给 resolve
+            resolve(response.data);
+        })
+            .catch(error => {
+                // 请求失败，传递错误信息给 reject
+                reject(error);
+            });
+    });
+}
+
+// 获取传感器类型下拉选项
+export function getSensorTypes() {
+    return new Promise((resolve, reject) => {
+        axiosInstance.post('/sensorType/list', {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            // 请求成功，解析数据并传递给 resolve
+            resolve(response.data);
+        })
+            .catch(error => {
+                // 请求失败，传递错误信息给 reject
+                reject(error);
+            });
+    });
+}
+
+// 获取传感器下拉选项
+export function getSensors(deviceId, sensorTypeID) {
+    const formData = new FormData();
+    formData.append('deviceId', deviceId);
+    formData.append('sensorTypeID', sensorTypeID);
+    return new Promise((resolve, reject) => {
+        axiosInstance.post('/sensor/sensorListSelect', formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            // 请求成功，解析数据并传递给 resolve
+            resolve(response.data);
+        })
+            .catch(error => {
+                // 请求失败，传递错误信息给 reject
+                reject(error);
+            });
+    });
+}
+
 // 获取图表数据
 export function getChartData(deviceId, methodId, sensorId, sensorTypeId) {
     const formData = new FormData();

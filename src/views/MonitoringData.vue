@@ -4,14 +4,25 @@
     <!-- 在此添加设置页面内容 -->
     <div class="table-header-operations">
       <div class="left-part">
-        <input v-model="deviceId" type="text" placeholder="选择设备" />
-        <input
-          v-model="sensorTypeId"
-          type="text"
-          placeholder="选择传感器类型"
-        />
-        <input v-model="sensorId" type="text" placeholder="选择传感器"/>
-        <select v-model="selectedItem" class="custom-select">
+        <select v-model="deviceId" class="custom-select">
+          <option value="">选择设备</option>
+          <option v-for="item in devices" :key="item" :value="item.deviceId">
+            {{ item.deviceName }}
+          </option>
+        </select>
+        <select v-model="sensorTypeId" class="custom-select">
+          <option value="">选择传感器类型</option>
+          <option v-for="item in sensorTypes" :key="item" :value="item.sensorTypeId">
+            {{ item.sensorType }}
+          </option>
+        </select>
+        <select v-model="sensorId" class="custom-select">
+          <option value="">选择传感器</option>
+          <option v-for="item in sensors" :key="item" :value="item.sensorId">
+            {{ item.sensorName }}
+          </option>
+        </select>
+        <select v-model="methodID" class="custom-select">
           <option value="">选择预测方法</option>
           <option v-for="item in methods" :key="item" :value="item.methodId">
             {{ item.methodName }}
@@ -51,7 +62,7 @@
 import { ref, onMounted } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
-import { monitoringData, getMethods } from "@/services/data";
+import { monitoringData, getMethods, getDevices, getSensorTypes, getSensors } from "@/services/data";
 export default {
   // 在此添加组件逻辑
   components: {
@@ -84,7 +95,9 @@ export default {
     const maxPage = ref(1);
     const hasOperations = ref(false);
     const methods = ref([]);
-    const selectedItem = ref("");
+    const devices = ref([]);
+    const sensorTypes = ref([]);
+    const sensors = ref([]);
 
     const actions = ref({
       edit: false, // 传递每种操作的配置
@@ -174,6 +187,9 @@ export default {
     onMounted(() => {
       fetchMonitoringData();
       getForeCast();
+      fetchDevices();
+      fetchSensorTypes();
+      fetchSensors();
     });
 
     const getForeCast = async () => {
@@ -181,6 +197,26 @@ export default {
         sensorTypeId.value
       );
       methods.value = response
+    }
+
+    const fetchDevices = async () => {
+      const response = await getDevices(
+      );
+      devices.value = response
+    }
+
+    const fetchSensorTypes = async () => {
+      const response = await getSensorTypes(
+      );
+      sensorTypes.value = response
+    }
+
+    const fetchSensors = async () => {
+      const response = await getSensors(
+        deviceId.value,
+        sensorTypeId.value
+      );
+      sensors.value = response
     }
 
     const download = async () => {
@@ -206,6 +242,7 @@ export default {
       tableHeaders,
       previousPage,
       nextPage,
+      fetchDevices,
       updateItemsPerPage,
       goToPageInput,
       goToPage,
@@ -213,9 +250,13 @@ export default {
       actions,
       methods,
       getForeCast,
-      selectedItem,
+      devices,
+      sensorTypes,
       download,
-      refresh
+      refresh,
+      fetchSensorTypes,
+      fetchSensors,
+      sensors
     };
   },
 };
@@ -267,6 +308,7 @@ export default {
   border-radius: 5px;
   border: 1px solid #ccc;
   color: grey;
+  margin-left: 10px;
 }
 
 .download {

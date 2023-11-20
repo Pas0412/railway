@@ -3,8 +3,18 @@
   <div class="settings">
     <div class="table-header-operations">
       <div class="left-part">
-        <input v-model="deviceId" type="text" placeholder="选择设备" />
-        <input v-model="sensorTypeId" type="text" placeholder="选择传感器类型" />
+        <select v-model="deviceId" class="custom-select">
+          <option value="">选择设备</option>
+          <option v-for="item in devices" :key="item" :value="item.deviceId">
+            {{ item.deviceName }}
+          </option>
+        </select>
+        <select v-model="sensorTypeId" class="custom-select">
+          <option value="">选择传感器类型</option>
+          <option v-for="item in sensorTypes" :key="item" :value="item.sensorTypeId">
+            {{ item.sensorType }}
+          </option>
+        </select>
         <input v-model="startTime" type="date" placeholder="开始日期" /> 至
         <input v-model="endTime" type="date" placeholder="结束日期" />
         <button @click="refresh">刷新</button>
@@ -43,6 +53,7 @@ import { ref, onMounted } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
 import { getWarnings, setOffWarning } from "@/services/warnings";
+import { getDevices, getSensorTypes } from "@/services/data";
 export default {
   // 在此添加组件逻辑
   components: {
@@ -74,12 +85,15 @@ export default {
     const itemsPerPage = ref(10);
     const currentPage = ref(1);
     const deviceId = ref("");
+    const sensorTypeId = ref("");
     const endTime = ref("");
     const configName = ref("");
     const startTime = ref("");
     const totalItems = ref(0);
     const maxPage = ref(1);
     const hasOperations = ref(true);
+    const devices = ref([]);
+    const sensorTypes = ref([]);
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -162,10 +176,26 @@ export default {
 
     onMounted(() => {
       fetchWarnings();
+      fetchDevices();
+      fetchSensorTypes();
     });
 
     const refresh = () => {
       fetchWarnings();
+    }
+
+    const fetchDevices = async () => {
+      const response = await getDevices(
+      );
+      devices.value = response;
+      console.log(response);
+    }
+
+    const fetchSensorTypes = async () => {
+      const response = await getSensorTypes(
+      );
+      sensorTypes.value = response;
+      console.log(response);
     }
 
     return {
@@ -187,7 +217,12 @@ export default {
       actions,
       hasOperations,
       setOff,
-      refresh
+      refresh,
+      fetchSensorTypes,
+      fetchDevices,
+      sensorTypes,
+      devices,
+      sensorTypeId
     };
   },
 };
@@ -252,5 +287,15 @@ export default {
 
 .right-part button:last-child {
   background-color: lightblue;
+}
+
+.custom-select {
+  /* 自定义样式 */
+  width: 180px;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  color: grey;
+  margin-left: 10px;
 }
 </style>

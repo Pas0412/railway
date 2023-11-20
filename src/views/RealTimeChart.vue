@@ -4,10 +4,25 @@
     <!-- 在此添加设置页面内容 -->
     <div class="table-header-operations">
       <div class="left-part">
-        <input v-model="deviceId" type="text" placeholder="选择设备" />
-        <input v-model="sensorTypeId" type="text" placeholder="选择传感器类型" />
-        <input v-model="sensorId" type="text" placeholder="选择传感器" />
-        <select v-model="selectedItem" class="custom-select">
+        <select v-model="deviceId" class="custom-select">
+          <option value="">选择设备</option>
+          <option v-for="item in devices" :key="item" :value="item.deviceId">
+            {{ item.deviceName }}
+          </option>
+        </select>
+        <select v-model="sensorTypeId" class="custom-select">
+          <option value="">选择传感器类型</option>
+          <option v-for="item in sensorTypes" :key="item" :value="item.sensorTypeId">
+            {{ item.sensorType }}
+          </option>
+        </select>
+        <select v-model="sensorId" class="custom-select">
+          <option value="">选择传感器</option>
+          <option v-for="item in sensors" :key="item" :value="item.sensorId">
+            {{ item.sensorName }}
+          </option>
+        </select>
+        <select v-model="methodId" class="custom-select">
           <option value="">选择预测方法</option>
           <option v-for="item in methods" :key="item" :value="item.methodId">
             {{ item.methodName }}
@@ -27,7 +42,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { getMethods, getChartData } from "@/services/data";
+import { getMethods, getChartData, getDevices, getSensorTypes, getSensors } from "@/services/data";
 import DataChart from "@/components/DataChart.vue";
 export default {
   components: {
@@ -42,8 +57,10 @@ export default {
     const sensorTypeId = ref("");
     const startTime = ref("");
     const methods = ref([]);
-    const selectedItem = ref("");
     const chartData = ref(null);
+    const devices = ref([]);
+    const sensorTypes = ref([]);
+    const sensors = ref([]);
 
     const getForeCast = async () => {
       const response = await getMethods(
@@ -91,10 +108,35 @@ export default {
     onMounted(() => {
       getForeCast();
       getChart();
+      fetchDevices();
+      fetchSensorTypes();
+      fetchSensors();
     })
 
     const refresh = () => {
       getChart();
+    }
+
+    const fetchDevices = async () => {
+      const response = await getDevices(
+      );
+      devices.value = response;
+      console.log(response);
+    }
+
+    const fetchSensorTypes = async () => {
+      const response = await getSensorTypes(
+      );
+      sensorTypes.value = response;
+      console.log(response);
+    }
+
+    const fetchSensors = async () => {
+      const response = await getSensors(
+        deviceId.value,
+        sensorTypeId.value
+      );
+      sensors.value = response
     }
 
     return {
@@ -106,10 +148,15 @@ export default {
       startTime,
       methods,
       getForeCast,
-      selectedItem,
+      fetchDevices,
       chartData,
       getChart,
-      refresh
+      refresh,
+      fetchSensorTypes,
+      fetchSensors,
+      sensors,
+      sensorTypes,
+      devices
     };
   },
 };
@@ -160,10 +207,12 @@ export default {
 
 .custom-select {
   /* 自定义样式 */
-  width: 200px;
+  width: 180px;
   height: 35px;
   border-radius: 5px;
   border: 1px solid #ccc;
   color: grey;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 </style>
