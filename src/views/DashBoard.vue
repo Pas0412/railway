@@ -90,9 +90,9 @@ export default {
               this.squareData?.warmSituation[2].count,
             ],
             backgroundColor: [
-              "red",
-              "orange",
               "yellow",
+              "orange",
+              "red",
             ],
           };
           this.pieChartData = {

@@ -11,7 +11,7 @@
       </thead>
       <tbody>
         <tr v-for="device in displayedData" :key="'device_' + device.deviceId">
-          <td v-for="(item, index) in device" :key="'item_' + index">{{ item }}</td>
+          <td :class="{ 'red-text': item === '三级' || item === '未解除', 'yellow-text': item === '一级', 'orange-text': item === '二级', 'green-text': item === '已解除'}" v-for="(item, index) in device" :key="'item_' + index">{{ item }}</td>
           <td v-if="showOperations(device)">
             <span v-if="actions.edit" @click="editDevice(device)" class="action-link">修改 / </span>
             <span v-if="actions.delete" @click="deleteDevice(device)" class="action-link">删除</span>
@@ -118,5 +118,21 @@ tbody td {
 .action-link {
   cursor: pointer;
   margin: 0 5px;
+}
+
+.yellow-text {
+  color: yellow; /* 设置黄色字体 */
+}
+
+.orange-text {
+  color: orange; /* 设置黄色字体 */
+}
+
+.red-text {
+  color: red; /* 设置黄色字体 */
+}
+
+.green-text {
+  color: green; /* 设置黄色字体 */
 }
 </style>
