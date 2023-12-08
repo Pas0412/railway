@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-// import store from '@/store';
 
 const routes = [
     {
         path: '/',
         component: () => import('@/views/Home.vue'),
+        redirect: '/dashboard',
         children: [
             { path: 'dashboard', component: () => import('@/views/DashBoard.vue') },
             { path: 'devices', component: () => import('@/views/Devices.vue') },

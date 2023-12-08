@@ -3,26 +3,32 @@
     <!-- 在此添加仪表盘内容 -->
     <div class="top-dashboard">
       <div class="squares">
-        <Square
-          name="设备总数"
-          :number="squareData?.deviceNum"
-          backgroundColor="lightblue"
-        ></Square>
-        <Square
-          name="传感器总数"
-          :number="squareData?.sensorNum"
-          backgroundColor="lightsalmon"
-        ></Square>
+        <router-link to="/devices" class="router-link">
+          <Square
+            name="设备总数"
+            :number="squareData?.deviceNum"
+            backgroundColor="lightblue"
+          ></Square>
+        </router-link>
+        <router-link to="/sensors" class="router-link">
+          <Square
+            name="传感器总数"
+            :number="squareData?.sensorNum"
+            backgroundColor="lightsalmon"
+          ></Square>
+        </router-link>
         <Square
           name="设备在线总数"
           :number="squareData?.deviceOnlineNum"
           backgroundColor="lightgreen"
         ></Square>
-        <Square
-          name="报警总数"
-          :number="squareData?.warmEventeNum"
-          backgroundColor="pink"
-        ></Square>
+        <router-link to="/warnings" class="router-link">
+          <Square
+            name="报警总数"
+            :number="squareData?.warmEventeNum"
+            backgroundColor="pink"
+          ></Square>
+        </router-link>
       </div>
       <div class="chart-container">
         <ChartContainer
@@ -83,7 +89,7 @@ export default {
               this.squareData.warmSituation[1].warm_level,
               this.squareData.warmSituation[2].warm_level,
             ],
-            label: "预警数",
+            label: ["一级","二级","三级"],
             data: [
               this.squareData?.warmSituation[0].count,
               this.squareData?.warmSituation[1].count,
@@ -129,6 +135,11 @@ export default {
   background-color: white;
   display: flex;
   flex-direction: row;
+}
+
+.router-link {
+  height: 100%;
+  text-decoration: none;
 }
 
 .squares {
