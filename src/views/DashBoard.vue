@@ -89,11 +89,28 @@ export default {
               this.squareData.warmSituation[1].warm_level,
               this.squareData.warmSituation[2].warm_level,
             ],
-            label: ["一级","二级","三级"],
             data: [
-              this.squareData?.warmSituation[0].count,
-              this.squareData?.warmSituation[1].count,
-              this.squareData?.warmSituation[2].count,
+            {
+              name: this.squareData.warmSituation[0].warm_level,
+              value: this.squareData?.warmSituation[0].count,
+              // 设置单个柱子的样式
+              itemStyle: {
+                color: 'yellow',
+              }},
+              {
+                name: this.squareData.warmSituation[1].warm_level,
+              value: this.squareData?.warmSituation[1].count,
+              // 设置单个柱子的样式
+              itemStyle: {
+                color: 'orange',
+              }},
+              {
+                name: this.squareData.warmSituation[2].warm_level,
+              value: this.squareData?.warmSituation[2].count,
+              // 设置单个柱子的样式
+              itemStyle: {
+                color: 'red',
+              }},
             ],
             backgroundColor: [
               "yellow",

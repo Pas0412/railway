@@ -1,77 +1,68 @@
 <template>
   <div>
-    <canvas class="pie-canvas" ref="pieChartCanvas"></canvas>
+    <div class="echarts-container" ref="echartsContainer" :style="{ height: '200px' }"></div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import {
-  Chart,
-  Title,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  ArcElement,
-  PieController,
-} from "chart.js";
-Chart.register(
-  PieController,
-  Title,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  ArcElement
-);
+import * as echarts from 'echarts';
 
 export default {
   props: {
     chartData: Object, // 饼状图数据
     pieChartTitle: String, // 饼状图标题
   },
-  setup(props) {
-    const pieChartCanvas = ref(null);
-    // eslint-disable-next-line no-unused-vars
-    let pieChart = null;
-
-    onMounted(() => {
-      if (pieChartCanvas.value) {
-        pieChart = new Chart(pieChartCanvas.value, {
-          type: "pie",
-          data: {
-            labels: props.chartData.labels,
-            datasets: [
-              {
-                data: props.chartData.data,
-                backgroundColor: props.chartData.backgroundColor,
-              },
-            ],
-          },
-          options: {
-            plugins: {
-              legend: {
-                display: true,
-                position: "bottom",
-              },
-              title: {
-                display: true,
-                position: "top",
-                text: props.pieChartTitle,
-              },
-            },
-          },
-        });
-      }
-    });
-
+  data() {
     return {
-      pieChartCanvas,
+      echartsInstance: null,
     };
+  },
+  watch: {
+    chartData: {
+      handler(newData) {
+        // 数据变化时更新图表
+        this.updateChart(newData);
+      },
+      deep: true,
+    },
+  },
+  mounted() {
+    // 初始化图表
+    this.initChart();
+  },
+  methods: {
+    initChart() {
+      this.echartsInstance = echarts.init(this.$refs.echartsContainer);
+      this.updateChart(this.chartData);
+    },
+    updateChart(data) {
+      this.echartsInstance.setOption({
+        title: {
+          text: this.pieChartTitle,
+          top: 'top',
+        },
+        series: [
+          {
+            type: 'pie',
+            radius: '50%',
+            data: data.labels.map((label, index) => ({
+              name: label,
+              value: data.data[index],
+              itemStyle: {
+                color: data.backgroundColor[index],
+              },
+            })),
+          },
+        ],
+      });
+    },
   },
 };
 </script>
+
 <style>
-.pie-canvas {
-    height: 150px;
+.echarts-container {
+  height: 200px;
+  width: 200px;
 }
 </style>
