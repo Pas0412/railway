@@ -8,15 +8,24 @@
       <form @submit.prevent="submitForm">
         <div class="form-field">
           <label for="device">设备:</label>
-          <input type="text" id="device" v-model="formData.deviceId" required />
+          <select v-model="formData.deviceId" class="custom-select">
+            <option value="">请选择设备</option>
+            <option v-for="item in devices" :key="item" :value="item.deviceId">
+              {{ item.deviceName }}
+            </option>
+          </select>
         </div>
         <div class="form-field">
           <label for="channel">通道:</label>
-          <input type="text" id="channel" v-model="formData.channel" required />
+          <select v-model="formData.channel" class="custom-select">
+            <option value="">请选择通道</option>
+            <option value=1>通道1
+            </option>
+          </select>
         </div>
         <div class="form-field">
           <label for="name">名称:</label>
-          <input type="text" id="name" v-model="formData.name" required />
+          <input type="text" id="name" v-model="formData.name" required placeholder="请输入传感器名称"/>
         </div>
         <div class="form-field">
           <label for="calibration">标定系数:</label>
@@ -25,6 +34,7 @@
             id="calibration"
             v-model="formData.calibration"
             required
+            placeholder="请输入标定系数"
           />
         </div>
         <div class="form-field">
@@ -34,6 +44,7 @@
             id="frequency"
             v-model="formData.frequency"
             required
+            placeholder="请输入频率常量"
           />
         </div>
         <div class="form-field">
@@ -44,12 +55,14 @@
               id="range-min"
               v-model="formData.rangeMinValue"
               required
+              placeholder="请输入量程"
             />
             <input
               type="number"
               id="range-max"
               v-model="formData.rangeMaxValue"
               required
+              placeholder="请输入量程"
             />
           </div>
         </div>
@@ -60,20 +73,20 @@
             id="temperature"
             v-model="formData.setTemperature"
             required
+            placeholder="请设置温度"
           />
         </div>
         <div class="form-field">
           <label for="formula">公式:</label>
-          <textarea id="formula" v-model="formData.formula" required></textarea>
+          <input id="formula" v-model="formData.formula" required placeholder="请输入原理公式"/>
         </div>
         <div class="form-field">
           <label for="location">具体位置:</label>
-          <input
-            type="text"
-            id="location"
-            v-model="formData.location"
-            required
-          />
+          <select v-model="formData.location" class="custom-select">
+            <option value="">请上传传感器位置示意图</option>
+            <option value=1>位置1
+            </option>
+          </select>
         </div>
         <button type="submit">提交</button>
       </form>
@@ -82,6 +95,7 @@
 </template>
 
 <script>
+import { getDevices } from "@/services/data";
 export default {
   props: {
     showModal: {
@@ -102,10 +116,19 @@ export default {
         temperature: "",
         formula: "",
         location: "",
+        devices: []
       },
     };
   },
+  mounted() {
+    this.fetchDevices();
+  },
   methods: {
+    async fetchDevices(){
+      const response = await getDevices(
+      );
+      this.devices = response;
+    },
     closeModal() {
       this.$emit("update:showModal", false);
     },
@@ -190,15 +213,29 @@ export default {
 .form-field label {
   display: block;
   font-weight: bold;
-  width: 50px;
+  width: 100px;
 }
 
 .form-field input,
 .form-field textarea {
-  /* width: 100%; */
+  /* width: 400px; */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  flex: 1;
+}
+
+.range-inputs {
+  width: 100%;
+}
+
+.range-inputs input {
+  /* width: 400px; */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex: 1;
+  width: 39%;
 }
 
 button[type="submit"] {
@@ -208,5 +245,16 @@ button[type="submit"] {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.custom-select {
+  /* 自定义样式 */
+  /* width: 180px; */
+  flex: 1;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  color: grey;
+  margin-left: 10px;
 }
 </style>
