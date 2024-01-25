@@ -121,7 +121,7 @@ export default {
       response.records.forEach((item) => {
         sensorData.push({
           sensorId: item.sensorId,
-          sensorCode: item.sensorCode,
+          sensorCode: item.sensorNumber,
           sensorName: item.sensorName,
           formula: item.formula,
           rangeUnit: item.rangeUnit,
