@@ -19,6 +19,7 @@
       :tableHeaders="tableHeaders"
       :actions="actions"
       :hasOperations="hasOperations"
+      @onDelete="onDelete"
     />
     <Pagination
       v-model:currentPage="currentPage"
@@ -38,7 +39,7 @@
 import { ref, onMounted, triggerRef } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
-import { getSensors } from "@/services/sensors";
+import { getSensors, deleteSensor } from "@/services/sensors";
 import AddSensor from "@/components/AddSensor.vue";
 export default {
   // 在此添加组件逻辑
@@ -158,6 +159,11 @@ export default {
       showModal.value = true;
     }
 
+    const onDelete = async (sensor) => {
+      const res = await deleteSensor(sensor.sensorId);
+      console.log(res);
+    }
+
     const search = () => {
       fetchSensorData();
     }
@@ -184,7 +190,8 @@ export default {
       addSensor,
       showModal,
       search,
-      refresh
+      refresh,
+      onDelete
     };
   },
 };

@@ -21,6 +21,7 @@
       :actions="actions"
       :hasOperations="hasOperations"
       @showDetails="showDetails"
+      @onDelete="onDelete"
     />
     <Pagination
       v-model:currentPage="currentPage"
@@ -40,7 +41,7 @@
 import { ref, onMounted } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
-import { getDevices } from "@/services/devices";
+import { getDevices, deleteDevice } from "@/services/devices";
 import DeviceDetail from "@/components/DeviceDetail.vue";
 
 export default {
@@ -171,6 +172,11 @@ export default {
       openModal();
     }
 
+    const onDelete = async (device) => {
+      const res = await deleteDevice(device.deviceId);
+      console.log(res);
+    }
+
     const openModal = () => {
       showModal.value = true;
     };
@@ -208,7 +214,8 @@ export default {
       deviceDetailData,
       fetchDeviceDetail,
       search,
-      refresh
+      refresh,
+      onDelete
     };
   },
 };

@@ -43,3 +43,24 @@ export function addSensor(formData) {
             });
     });
 }
+
+// 删除传感器
+export function deleteSensor(sensorId) {
+    const formData = new FormData();
+    formData.append('sensorId', sensorId);
+    return new Promise((resolve, reject) => {
+        axiosInstance.post('/sensor/deleteSensor', formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => {
+                // 请求成功，解析数据并传递给 resolve
+                resolve(response);
+            })
+            .catch(error => {
+                // 请求失败，传递错误信息给 reject
+                reject(error);
+            });
+    });
+}

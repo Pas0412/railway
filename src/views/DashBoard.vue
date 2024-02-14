@@ -88,6 +88,7 @@ export default {
               this.squareData.warmSituation[0].warm_level,
               this.squareData.warmSituation[1].warm_level,
               // this.squareData.warmSituation[2].warm_level,
+              '三级'
             ],
             data: [
             {
@@ -104,13 +105,13 @@ export default {
               itemStyle: {
                 color: 'orange',
               }},
-              // {
-              //   name: this.squareData.warmSituation[2].warm_level,
-              // value: this.squareData?.warmSituation[2].count,
-              // // 设置单个柱子的样式
-              // itemStyle: {
-              //   color: 'red',
-              // }},
+              {
+                name: '三级',
+              value: 0,
+              // 设置单个柱子的样式
+              itemStyle: {
+                color: 'red',
+              }},
             ],
             backgroundColor: [
               "yellow",

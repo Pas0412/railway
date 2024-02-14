@@ -14,7 +14,7 @@
           <td :class="{ 'red-text': item === '三级' || item === '未解除', 'yellow-text': item === '一级', 'orange-text': item === '二级', 'green-text': item === '已解除'}" v-for="(item, index) in device" :key="'item_' + index">{{ item }}</td>
           <td v-if="showOperations(device)">
             <span v-if="actions.edit" @click="editDevice(device)" class="action-link">修改 / </span>
-            <span v-if="actions.delete" @click="deleteDevice(device)" class="action-link">删除</span>
+            <span v-if="actions.delete" @click="() => $emit('onDelete', device)" class="action-link">删除</span>
             <span v-if="actions.details" @click="() => $emit('showDetails', device)" class="action-link"> / 详情</span>
             <span v-if="actions.annonce" @click="annonce(device)" class="action-link">通知 / </span>
             <span v-if="actions.setoff" @click="() => $emit('setOff', device)" class="action-link">解除</span>
