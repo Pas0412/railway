@@ -7,7 +7,7 @@
       @click="toggleSidebar"
     />
     <img class="logo" src="../assets/logo.png" alt="logo">
-    <div class="title">铁路路基远程在线监测信息管理系统</div>
+    <div class="title">高铁路基监测预警系统</div>
     <button @click="logout">log out</button>
   </div>
 </template>

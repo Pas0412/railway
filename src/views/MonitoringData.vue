@@ -18,8 +18,8 @@
         </select>
         <select v-model="sensorId" class="custom-select">
           <option value="">选择传感器</option>
-          <option v-for="item in sensors" :key="item" :value="item.sensorId">
-            {{ item.sensorName }}
+          <option v-for="item in sensors" :key="item" :value="item.sensorNumber">
+            {{ item.sensorNumber }}
           </option>
         </select>
         <select v-model="methodID" class="custom-select">
@@ -62,7 +62,8 @@
 import { ref, onMounted } from "vue";
 import TableComponent from "@/components/TableComponent.vue";
 import Pagination from "@/components/Pagination.vue";
-import { monitoringData, getMethods, getDevices, getSensorTypes, getSensors } from "@/services/data";
+import { monitoringData, getMethods, getDevices, getSensorTypes } from "@/services/data";
+import { getSensors } from "@/services/sensors";
 export default {
   // 在此添加组件逻辑
   components: {
@@ -97,7 +98,9 @@ export default {
     const methods = ref([]);
     const devices = ref([]);
     const sensorTypes = ref([]);
+    const sensorType = ref("");
     const sensors = ref([]);
+    const sensorNumber = ref(0);
 
     const actions = ref({
       edit: false, // 传递每种操作的配置
@@ -209,14 +212,16 @@ export default {
       const response = await getSensorTypes(
       );
       sensorTypes.value = response
+      sensorType.value = response.sensorType
     }
 
     const fetchSensors = async () => {
       const response = await getSensors(
-        deviceId.value,
-        sensorTypeId.value
+        sensorType.value,
+        currentPage.value,
+        itemsPerPage.value
       );
-      sensors.value = response
+      sensors.value = response.records
     }
 
     const download = async () => {
@@ -256,7 +261,8 @@ export default {
       refresh,
       fetchSensorTypes,
       fetchSensors,
-      sensors
+      sensors,
+      sensorNumber
     };
   },
 };

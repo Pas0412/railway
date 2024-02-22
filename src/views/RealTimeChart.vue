@@ -18,8 +18,8 @@
         </select>
         <select v-model="sensorId" class="custom-select">
           <option value="">选择传感器</option>
-          <option v-for="item in sensors" :key="item" :value="item.sensorId">
-            {{ item.sensorName }}
+          <option v-for="item in sensors" :key="item" :value="item.sensorNumber">
+            {{ item.sensorNumber }}
           </option>
         </select>
         <select v-model="methodId" class="custom-select">
@@ -42,14 +42,17 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { getMethods, getChartData, getDevices, getSensorTypes, getSensors } from "@/services/data";
+import { getMethods, getChartData, getDevices, getSensorTypes } from "@/services/data";
 import DataChart from "@/components/DataChart.vue";
+import { getSensors } from "@/services/sensors";
 export default {
   components: {
     DataChart
   },
   // 在此添加组件逻辑
   setup() {
+    const itemsPerPage = ref(10);
+    const currentPage = ref(1);
     const deviceId = ref(1);
     const endTime = ref("");
     const methodId = ref("");
@@ -61,6 +64,7 @@ export default {
     const devices = ref([]);
     const sensorTypes = ref([]);
     const sensors = ref([]);
+    const sensorType = ref("");
 
     const getForeCast = async () => {
       const response = await getMethods(
@@ -133,10 +137,11 @@ export default {
 
     const fetchSensors = async () => {
       const response = await getSensors(
-        deviceId.value,
-        sensorTypeId.value
+        sensorType.value,
+        currentPage.value,
+        itemsPerPage.value
       );
-      sensors.value = response
+      sensors.value = response.records
     }
 
     return {
@@ -156,7 +161,9 @@ export default {
       fetchSensors,
       sensors,
       sensorTypes,
-      devices
+      devices,
+      currentPage,
+      itemsPerPage
     };
   },
 };
