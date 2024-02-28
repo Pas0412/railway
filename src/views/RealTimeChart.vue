@@ -42,7 +42,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { getMethods, getChartData, getDevices, getSensorTypes } from "@/services/data";
+import { getMethods, monitoringData, getDevices, getSensorTypes } from "@/services/data";
 import DataChart from "@/components/DataChart.vue";
 import { getSensors } from "@/services/sensors";
 export default {
@@ -51,8 +51,8 @@ export default {
   },
   // 在此添加组件逻辑
   setup() {
-    const itemsPerPage = ref(10);
-    const currentPage = ref(1);
+    const itemsPerPage = ref("");
+    const currentPage = ref("");
     const deviceId = ref(1);
     const endTime = ref("");
     const methodId = ref("");
@@ -65,6 +65,7 @@ export default {
     const sensorTypes = ref([]);
     const sensors = ref([]);
     const sensorType = ref("");
+    // const sensorNumber = ref(0);
 
     const getForeCast = async () => {
       const response = await getMethods(
@@ -74,20 +75,26 @@ export default {
     }
 
     const getChart = async () => {
-      const response = await getChartData(
+      const response = await monitoringData(
         deviceId.value,
+        endTime.value,
         methodId.value,
+        currentPage.value,
+        itemsPerPage.value,
         sensorId.value,
-        sensorTypeId.value
+        sensorTypeId.value,
+        startTime.value
       );
+      console.log(response.records);
       const labels = [];
       const totalData = [];
       const forecastData = [];
-      response.forEach((item) => {
-        labels.push(item.channelName);
+      response.records.forEach((item) => {
+        labels.push(item.Id);
         totalData.push(item.totalValue);
         forecastData.push(item.forecastValue);
       });
+      console.log(forecastData);
       chartData.value = {
         labels: labels,
         datasets: [
