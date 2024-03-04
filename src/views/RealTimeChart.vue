@@ -42,7 +42,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { getMethods, monitoringData, getDevices, getSensorTypes } from "@/services/data";
+import { getMethods, getChartData, getDevices, getSensorTypes } from "@/services/data";
 import DataChart from "@/components/DataChart.vue";
 import { getSensors } from "@/services/sensors";
 export default {
@@ -51,8 +51,8 @@ export default {
   },
   // 在此添加组件逻辑
   setup() {
-    const itemsPerPage = ref("");
-    const currentPage = ref("");
+    const itemsPerPage = ref(10);
+    const currentPage = ref(1);
     const deviceId = ref(1);
     const endTime = ref("");
     const methodId = ref("");
@@ -60,12 +60,12 @@ export default {
     const sensorTypeId = ref("");
     const startTime = ref("");
     const methods = ref([]);
-    const chartData = ref(null);
+    let chartData = ref(null);
     const devices = ref([]);
     const sensorTypes = ref([]);
     const sensors = ref([]);
     const sensorType = ref("");
-    // const sensorNumber = ref(0);
+    const sensorNumber = ref(0)
 
     const getForeCast = async () => {
       const response = await getMethods(
@@ -75,26 +75,34 @@ export default {
     }
 
     const getChart = async () => {
-      const response = await monitoringData(
-        deviceId.value,
-        endTime.value,
+      if (chartData.value){
+        chartData.value = null;
+      }
+      console.log(deviceId.value,
         methodId.value,
-        currentPage.value,
-        itemsPerPage.value,
-        sensorId.value,
-        sensorTypeId.value,
-        startTime.value
+        sensorNumber.value,
+        sensorTypeId.value);
+      const response = await getChartData(
+        deviceId.value,
+        methodId.value,
+        sensorNumber.value,
+        sensorTypeId.value
       );
-      console.log(response.records);
       const labels = [];
       const totalData = [];
       const forecastData = [];
-      response.records.forEach((item) => {
-        labels.push(item.Id);
-        totalData.push(item.totalValue);
-        forecastData.push(item.forecastValue);
+      response.forEach((item) => {
+        // console.log(item);
+        for(var k in item) {
+          // console.log(item[k]);
+          item[k].forEach((i) => {
+            labels.push(i.collectTime);
+            totalData.push(i.totalValue);
+            forecastData.push(i.forecastValue);
+          });
+        }
       });
-      console.log(forecastData);
+      // console.log(totalData);
       chartData.value = {
         labels: labels,
         datasets: [

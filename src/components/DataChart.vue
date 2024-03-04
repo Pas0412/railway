@@ -5,7 +5,7 @@
   </template>
   
   <script>
-  import { onMounted, watch } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
   import Chart from 'chart.js/auto';
   
   export default {
@@ -16,13 +16,19 @@
       },
     },
     setup(props) {
+      const chartInstance = ref(null); // 用于存储Chart.js实例
       const renderChart = () => {
         if (props.chartData == null){
             return null
         }
         const ctx = document.getElementById('myChart').getContext('2d');
         // Chart.register(Chart.controllers.line);
-        new Chart(ctx, {
+        // 销毁之前的Chart.js实例
+      if (chartInstance.value) {
+        chartInstance.value.destroy();
+      }
+        
+        chartInstance.value = new Chart(ctx, {
           type: 'line',
           data: props.chartData,
           options: {
