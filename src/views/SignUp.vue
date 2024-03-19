@@ -152,7 +152,9 @@ export default {
 .login-container {
   width: 100%;
   margin: 0 auto;
-  background-color: rgb(207, 232, 240);
+  background-image: url('/public/bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   text-align: center;
   height: 200vh;
   position: absolute;
@@ -164,7 +166,7 @@ export default {
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: lightblue;
+  background-color: transparent;
   text-align: center;
   position: absolute;
   left: 50%;
